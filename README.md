@@ -39,10 +39,27 @@ Your code is clean, pure and surprisingly simple.
 
 # Installation
 
-	$ npm install floca
+	$ npm install -g floca
 
 
 ## Quick setup
+
+#### Using the CLI tool:
+
+	$ floca create demoApp
+	$ cd demoApp
+	$ npm install
+	$ npm start
+
+The CLI tool will create a new folder 'demoApp', and will create all required subfolders and files in it.
+By executing those npm commands, your microservice is ready-to-serve!
+The initial project will contain:
+- a microservice
+- a Starter code
+- a preliminary package.json
+- a sample config for the microservices
+
+#### Creating own project:
 
 ```javascript
 var Floca = require('floca');
@@ -59,7 +76,11 @@ floca.start( function(){
 } );
 ```
 
-Yes, it is that simple. And the app will
+Yes, it is that simple.
+
+-----
+
+In either case, the app will
 - read and watch your 'bus' folder and all entities defined in it
 - publish entities and endpoints you defined
 - be ready to serve :)

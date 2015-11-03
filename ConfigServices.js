@@ -10,8 +10,8 @@ module.exports = {
 		_.merge( this.conf, options );
 		return this;
 	},
-	argv: function() {
-		_.merge( this.conf, require('minimist')(process.argv.slice(2)) );
+	argv: function( index ) {
+		_.merge( this.conf, require('minimist')(process.argv.slice(index || 2)) );
 		return this;
 	},
 	file: function(files) {

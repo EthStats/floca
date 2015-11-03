@@ -1,0 +1,6 @@
+Usage:
+
+	floca <command> <name>
+
+List of supported commands:
+- create: creates a new folder with a structure supporting floca-based microservices

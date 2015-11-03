@@ -5,9 +5,7 @@ var async = require('async');
 function Fuser( option ){
 	this.option = option || {};
 
-	configServices.file( './defaultConfig' ).argv().env().add( this.option );
-
-	var config = configServices.config();
+	configServices.file( './lib/defaultConfig' ).argv().env().add( this.option );
 
 	this.config = configServices.config();
 }
