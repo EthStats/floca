@@ -5,7 +5,7 @@ var fse = require('fs-extra');
 var path = require('path');
 
 function printUsage(){
-	var content = fs.readFileSync('./usage.list', {encoding: 'utf8'});
+	var content = fs.readFileSync( path.join(__dirname, 'usage.list' ), {encoding: 'utf8'});
 	console.error(content);
 	process.exit(1);
 }
