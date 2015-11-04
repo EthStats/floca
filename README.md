@@ -99,7 +99,7 @@ In either case, the app will
 
 ## Microservice configuration
 
-Each microservice must have a unique name and must belong to an application or domain. These names will be used in the message bus for routing and distinguish different fields of juristiction.
+Each microservice must have a unique name and must belong to an application or domain. These names will be used in the message bus for routing and distinguish different fields of jurisdiction.
 
 
 ```javascript
