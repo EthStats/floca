@@ -32,7 +32,7 @@ function createProject( name, forced ){
 }
 
 function execute(){
-	var commands = process.argv.slice( 1 );
+	var commands = process.argv.slice( 2 );
 	if( commands.length < 2 ){
 		return printUsage();
 	}
