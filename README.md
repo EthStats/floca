@@ -17,7 +17,7 @@ Your codebase will we required to define __only pure CommonJS modules__ and all 
 - Tracking: you can monitor every message delivered (request or response) by only few lines of code
 - Flow control / Reproducibility: A flow of communication / messages can be halted / continued / reinitiated anytime with no effort
 - Advanced routing & listening: system fragmentation, qualified names, regular expressions, wildcards, etc.
-- Channel-agnostic you can use any underlaying technology your application requires: AMQP, ZeroMQ, XMPP, etc...
+- Channel-agnostic you can use any underlaying technology your application requires: AMQP, XMPP, etc...
 - Built-in logging service supporting Loggly as well
 - Short learning curve: no need to learn hundred of pages, communication has to be simple after all. CommonJS is all you need to understand. :)
 
