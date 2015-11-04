@@ -124,4 +124,5 @@ See <https://github.com/UpwardsMotion/floca/issues>.
 
 ## Changelog
 
+- 0.3.0: CLI tool added.
 - 0.1.0: First version released.
