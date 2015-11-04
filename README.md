@@ -124,5 +124,6 @@ See <https://github.com/UpwardsMotion/floca/issues>.
 
 ## Changelog
 
+- 0.5.0: JWT integration added.
 - 0.3.0: CLI tool added.
 - 0.1.0: First version released.
