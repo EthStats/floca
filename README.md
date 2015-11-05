@@ -91,6 +91,7 @@ In either case, the app will
 
 - Microservice configuration [See for details](#microserviceconfiguration)
 - AMQP [See for details](#amqp)
+- NSQ [See for details](#nsq)
 - Logging [See for details](#logging)
 - JSON Web Tokens [See for details](#jsonwebtokens)
 - Extender functions [See for details](#extenders)
@@ -141,6 +142,21 @@ A message bus is highly required for a microservice architecture. [AMQP](http://
 You can set an empty string to make floca work 'offline' or specify a valid connectionURL fitting your environment.
 
 !Note: support for other message solutions is in the pipeline...
+
+## NSQ
+
+In the absence of amqp connectivity, [floca](https://github.com/UpwardsMotion/floca) checks for settings for NSQ messaging solution in the config file as below:
+
+```javascript
+{
+	...
+	nsq: {
+		nsqdHost: '127.0.0.1'
+		nsqdPort: 4150
+	}
+	...
+}
+```
 
 
 ## Logging
