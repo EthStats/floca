@@ -252,19 +252,19 @@ You might not need all of them, probably none of them. See an example config fil
 
 ```javascript
 {
-	extendConnect: function( app ){ ... },
+	connectMiddlewares: function( app ){ ... },
 	extendREST: function( rester, harcon ){ ... },
 	runDevelopmentTest: function( harcon ){ ... }
 }
 ```
 
-#### extendConnect
+#### connectMiddlewares
 
-[Connect](https://github.com/senchalabs/connect#readme) delivers the HTTP server framework for [floca](https://github.com/UpwardsMotion/floca), and when it is initiated, the method _extendConnect_ is searched for to extend the middleware list of connect. By default only middlewares [compression](https://github.com/expressjs/compression) and [body-parser](https://github.com/expressjs/body-parser) is used. Your neeed might evolve the presence of other middlewares like [helmet](https://github.com/helmetjs/helmet) if web pages must be provided.
+[Connect](https://github.com/senchalabs/connect#readme) delivers the HTTP server framework for [floca](https://github.com/UpwardsMotion/floca), and when it is initiated, the function _connectMiddlewares_ is searched for to extend the middleware list of connect. By default only middlewares [compression](https://github.com/expressjs/compression) and [body-parser](https://github.com/expressjs/body-parser) is used. Your neeed might evolve the presence of other middlewares like [helmet](https://github.com/helmetjs/helmet) if web pages must be provided. Your function _connectMiddlewares_ should return an array of middlewares to be used.
 
 ```javascript
-	extendConnect: function( app ){
-		app.use( helmet.xframe('deny') );
+	connectMiddlewares: function( ){
+		return [ helmet.xframe('deny') ];
 	}
 ```
 
