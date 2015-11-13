@@ -144,7 +144,10 @@ A message bus is highly required for a microservice architecture. [AMQP](http://
 
 You can set an empty string to make floca work 'offline' or specify a valid connectionURL fitting your environment.
 
-!Note: support for other message solutions is in the pipeline...
+If the following environment variables are set,  [floca](https://github.com/UpwardsMotion/floca) will respect them as configuration:
+
+	AMQP_CONN_URL
+
 
 ## NSQ
 
@@ -160,6 +163,10 @@ In the absence of amqp connectivity, [floca](https://github.com/UpwardsMotion/fl
 	...
 }
 ```
+
+If the following environment variables are set,  [floca](https://github.com/UpwardsMotion/floca) will respect them as configuration:
+
+	NSQ_HOST, NSQ_PORT
 
 
 ## Logging
@@ -198,6 +205,11 @@ By setting the 'log' attribute to an own logger object possessing a 'log' functi
 ```
 
 If 'loggly' attribute is present with filled values, [floca](https://github.com/UpwardsMotion/floca) will establish connection to the Loggly server and use it as logging facility.
+
+If the following environment variables are set,  [floca](https://github.com/UpwardsMotion/floca) will respect them as configuration:
+
+	LOGGLY_TOKEN, LOGGLY_SUBDOMAIN
+
 
 #### Log to files
 
