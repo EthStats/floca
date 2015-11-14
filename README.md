@@ -264,9 +264,9 @@ You might not need all of them, probably none of them. See an example config fil
 
 ```javascript
 {
-	connectMiddlewares: function( app ){ ... },
-	extendREST: function( rester, harcon ){ ... },
-	runDevelopmentTest: function( harcon ){ ... }
+	connectMiddlewares: function( ){ ... },
+	extendREST: function( config, rester, pathToIgnore, harcon, tools ){ ... },
+	runDevelopmentTest: function( rester, harcon ){ ... }
 }
 ```
 
@@ -285,7 +285,7 @@ You might not need all of them, probably none of them. See an example config fil
 The exceptionally featureful [connect-rest](https://github.com/imrefazekas/connect-rest) is used as REST layer in [floca](https://github.com/UpwardsMotion/floca). The default behavior of floca publishes the microservices - if needed - and might publish the JWT request function. Your project might require to extend it with new REST functions like login:
 
 ```javascript
-	extendREST: function( config, rester, pathToIgnore, harcon ){
+	extendREST: function( config, rester, pathToIgnore, harcon, tools ){
 		rester.post( { path: '/login', context: '/sys', version: '1.0.0' }, function( request, content, callback ){
 			harcon.ignite( null, '', 'DBServices.login', content.email, content.password, function(err, user){
 				if( err ) return callback( err );
@@ -295,6 +295,9 @@ The exceptionally featureful [connect-rest](https://github.com/imrefazekas/conne
 		}, { options: true } );
 	}
 ```
+
+Tools is an object enlisting services like JWT used by the [floca](https://github.com/UpwardsMotion/floca).
+
 
 #### runDevelopmentTest
 
