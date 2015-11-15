@@ -99,6 +99,7 @@ In either case, the app will
 - JSON Web Tokens [See for details](#jsonwebtokens)
 - Extender functions [See for details](#extenders)
 - Own SSL certification [See for details](#ssl)
+- Service configuration via service discovery [See for details](#serviceconfigurationviaservicediscovery)
 
 
 ## Microservice configuration
@@ -334,6 +335,20 @@ If you possess an own SSL key, you can specify the absolute path of the key,cert
 
 [Back to Usage](#usage)
 
+
+## Service configuration via service discovery
+
+In a highly fragmented system, the configuration management should be centralised and accessed through service discovery.
+
+```javascript
+	...
+	entities: {
+		configurator: 'Tuner'
+	},
+	...
+```
+
+The attribute _'configurator'_ will activate the configuration management in [floca](https://github.com/UpwardsMotion/floca) and the microservice loader will call the function 'config' of it passing the name of the app and the service to require the configuration sent to the entity to initialise.
 
 
 ## License
