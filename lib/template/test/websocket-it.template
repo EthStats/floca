@@ -1,0 +1,9 @@
+		it( '$$$SERVICE$$$', function(done){
+			socketClient.emit('ignite', { id: '1', division: '$$$DIVISION$$$', event: '$$$COMP_NAME$$$.$$$SERVICE_NAME$$$', parameters: [ ] } );
+			socketClient.on('done', function (data) {
+				done( );
+			});
+			socketClient.on('error', function (data) {
+				done( new Error(data) );
+			});
+		});

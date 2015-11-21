@@ -23,19 +23,19 @@ FuserProto.start = function( callbackFn ){
 			self.server.serve( cb );
 		}
 	];
-	async.series( calls, function(err){
+	async.series( calls, function(err, res){
 		if( err )
-			self.stop( callbackFn, err );
+			self.stop( callbackFn, err, res );
 		else if( callbackFn )
-			callbackFn();
+			callbackFn(err, res);
 	} );
 };
 
-FuserProto.stop = function( callbackFn, err ){
+FuserProto.stop = function( callbackFn, err, res ){
 	if( this.server )
 		this.server.close( callbackFn );
 	else if( callbackFn )
-		callbackFn( err );
+		callbackFn( err, res );
 };
 
 module.exports = exports = Fuser;
