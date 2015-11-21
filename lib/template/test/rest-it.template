@@ -1,5 +1,5 @@
 		it( '$$$SERVICE$$$', function(done){
-			httphelper.generalCall( 'http://localhost:' + config.server.port + '/' + config.entities.appName + '$$$DIVISION$$$' + '/$$$COMP_NAME$$$/$$$SERVICE_NAME$$$', 'POST', {'x-api-key': config.rest.apiKeys[0] }, null, { params: [ ] }, 'application/json', null,
+			httphelper.generalCall( 'http://localhost:' + config.server.port + '/' + config.entities.appName + '/$$$COMP_NAME$$$/$$$SERVICE_NAME$$$', 'POST', {'x-api-key': config.rest.apiKeys[0] }, null, { params: [ ] }, 'application/json', logger,
 				function(err, result, status){
 					done( );
 				}

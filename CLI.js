@@ -51,7 +51,9 @@ function createProject( name, options ){
 }
 
 function createMochaCode( options ){
-	Collector.generateTests( options.port ? parseInt(options.port) : 8888, options.folder || 'test' );
+	var config = require('./config');
+
+	Collector.generateTests( config, options.folder || 'test' );
 }
 
 function createCode( codeType, options ){
@@ -72,7 +74,7 @@ function readCommand( commands, command ){
 	return false;
 }
 
-var optionsAccepted = [ 'force', 'gulp', 'mocha', 'port', 'folder' ];
+var optionsAccepted = [ 'force', 'gulp', 'mocha', 'folder' ];
 function collectOptions( commands ){
 	var res = {};
 	optionsAccepted.forEach(function( option ){
