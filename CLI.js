@@ -50,10 +50,13 @@ function createProject( name, options ){
 	});
 }
 
+function createServiceCode( options ){
+
+}
 function createMochaCode( options ){
 	var config = require('./config');
 
-	Collector.generateTests( config, options.folder || 'test' );
+	return Collector.generateTests( config, options.folder || 'test' );
 }
 
 function createCode( codeType, options ){
@@ -61,6 +64,9 @@ function createCode( codeType, options ){
 		if( options.mocha )
 			return createMochaCode( options );
 	}
+	/*else if( codeType === 'service' ){
+		return createServiceCode( options );
+	}*/
 	printUsage();
 }
 

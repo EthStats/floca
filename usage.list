@@ -1,8 +1,8 @@
 Usage:
 
-	floca <command> <name>
+	floca <command> [options]
 
 List of supported commands:
 - create: creates a new folder with a structure supporting floca-based microservices
-- generate: generates code to extend the features of a floca-based project
-	- mocha: analysis the folder of 'bus' and generates mocha tests to the folder 'test'
+- generate: generates code to add new features. Must be executed in the folder of your floca-based project.
+	- test [--mocha]: analysis the folder of 'bus' and generates tests to the folder 'test' using the existing configuration
