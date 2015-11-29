@@ -35,13 +35,13 @@ FuserProto.start = function( callbackFn ){
 	} );
 };
 
-FuserProto.Channeller = Channeller;
-
 FuserProto.stop = function( callbackFn, err, res ){
 	if( this.server )
 		this.server.close( callbackFn );
 	else if( callbackFn )
 		callbackFn( err, res );
 };
+
+Fuser.Channeller = Channeller;
 
 module.exports = exports = Fuser;

@@ -1,11 +1,14 @@
 {
   "name": "floca",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "Enterprise-grade microservice solution for NodeJS",
   "keywords": [
     "microservice",
+    "microservice architecture",
+    "microservices",
     "messaging",
-    "enterprise service bus"
+    "enterprise service bus",
+    "enterprise message bus"
   ],
   "homepage": "https://github.com/UpwardsMotion/floca",
   "repository": {

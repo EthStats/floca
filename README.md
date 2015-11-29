@@ -82,6 +82,8 @@ floca.start( function(){
 
 Yes, it is that simple.
 
+Note: by default [floca](https://github.com/UpwardsMotion/floca) is using in-memory bus to relay messages. Should you consider an enterprise-grade provider, should the [AMQP](#amqp) or [NSQ](#nsq) topic reviewed.
+
 -----
 
 In either case, the app will
@@ -100,6 +102,7 @@ In either case, the app will
 - Extender functions [See for details](#extenders)
 - Own SSL certification [See for details](#ssl)
 - Service configuration via service discovery [See for details](#serviceconfigurationviaservicediscovery)
+- CLI [See for details](#cli)
 
 
 ## Microservice configuration
@@ -131,7 +134,25 @@ The Publisher will send a message to the configurator microservice passing the a
 
 ## AMQP
 
-A message bus is highly required for a microservice architecture. [AMQP](http://amqp.org) has been proven probably the most reliable message solution out there. A stunning wide range of features support your aims. [floca](https://github.com/UpwardsMotion/floca) tries to use a running AMQP by default specified in the config file as below:
+An enterprise-grade message bus is highly required for a microservice architecture. [AMQP](http://amqp.org) has been proven probably the most reliable message solution out there. A stunning wide range of features support your aims.
+If you generated your project using the [CLI](#cli) with the option _--amqp_, then your project is set. If not, please make sure you create and pass the provider to [floca](https://github.com/UpwardsMotion/floca):
+
+```javascript
+var Fuser = require('floca');
+var FuserAMQP = require('floca-amqp');
+...
+
+var fuserAMQP = new FuserAMQP();
+var fuser = new Fuser( _.assign( {
+	channeller: fuserAMQP,
+	...
+}, require('./config') ) );
+
+```
+
+This will tell [floca](https://github.com/UpwardsMotion/floca) to use the AMQP provider instead of the default in-memory solution.
+
+[floca](https://github.com/UpwardsMotion/floca) tries to access a running AMQP by default specified in the config file as below:
 
 ```javascript
 {
@@ -152,7 +173,24 @@ If the following environment variables are set,  [floca](https://github.com/Upwa
 
 ## NSQ
 
-In the absence of amqp connectivity, [floca](https://github.com/UpwardsMotion/floca) checks for settings for NSQ messaging solution in the config file as below:
+If you generated your project using the [CLI](#cli) with the option _--nsq_, then your project is set. If not, please make sure you create and pass the provider to [floca](https://github.com/UpwardsMotion/floca):
+
+```javascript
+var Fuser = require('floca');
+var FuserNSQ = require('floca-nsq');
+...
+
+var fuserNSQ = new FuserNSQ();
+var fuser = new Fuser( _.assign( {
+	channeller: fuserNSQ,
+	...
+}, require('./config') ) );
+
+```
+
+This will tell [floca](https://github.com/UpwardsMotion/floca) to use the NSQ provider instead of the default in-memory solution.
+
+[floca](https://github.com/UpwardsMotion/floca) checks for settings for NSQ messaging solution in the config file as below:
 
 ```javascript
 {
@@ -349,6 +387,49 @@ In a highly fragmented system, the configuration management should be centralise
 ```
 
 The attribute _'configurator'_ will activate the configuration management in [floca](https://github.com/UpwardsMotion/floca) and the microservice loader will call the function 'config' of it passing the name of the app and the service to require the configuration sent to the entity to initialise.
+
+
+## CLI
+
+[floca](https://github.com/UpwardsMotion/floca) is delivered with an embedded CLI tool to aid project creation and management.
+
+Install floca with _-g_ switch:
+
+	$ npm install -g floca
+
+This will give you the _floca_ command line statement
+
+
+#### Generate Project
+
+To generate a new project execute the following:
+
+	$ floca create <projectName> [--amqp] [--nsq]
+
+This will create a folder _projectName_ inside the execution folder and creates a minimal viable [floca](https://github.com/UpwardsMotion/floca) project using the transport provider you might pass.
+The project can be used right away:
+
+	$ npm install
+	$ npm start
+
+Extend the bus folder with entities and have a happy coding!
+
+
+#### Generate Test Mocha code
+
+If your project possesses the service entities you might want to use, the CLI tool can generate [Mocha](https://mochajs.org) tests for them:
+
+	$ floca generate test --mocha
+
+This will execute a [floca](https://github.com/UpwardsMotion/floca) instance and all entities providing REST or Websocket interface will be associated with a test case.
+
+All code will be put to the file: _test/mochaTest_
+
+Execute this statement to call mocha on tests:
+
+	$ mocha test/mochaTest
+
+Tests are generated with _always accept_ behavior waiting for being unfold.
 
 
 ## License

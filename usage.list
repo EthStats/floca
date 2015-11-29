@@ -8,4 +8,6 @@ List of supported commands:
 	- test [--mocha]: analysis the folder of 'bus' and generates tests to the folder 'test' using the existing configuration
 
 List of supported options:
--- force: force operation of target folders/files already exist
+--force : force operation of target folders/files already exist
+--amqp : when project is being generated, AMQP is added as message bus provider
+--nsq : when project is being generated, NSQ is added as message bus provider
