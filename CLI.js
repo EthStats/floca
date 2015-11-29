@@ -4,6 +4,7 @@ var fs = require('fs');
 var fse = require('fs-extra');
 var path = require('path');
 var async = require('async');
+var _ = require('lodash');
 
 var Collector = require('./lib/Collector');
 
@@ -16,16 +17,42 @@ function printUsage(){
 	var content = fs.readFileSync( path.join(__dirname, 'usage.list' ), {encoding: 'utf8'});
 	global.forceExit( content );
 }
+
+function modifyPackageJSON( modifierJS, json ){
+	console.log( modifierJS );
+	fs.writeFileSync( json,
+		JSON.stringify( _.assign( JSON.parse( fs.readFileSync( json, {encoding: 'utf8'} ) ), require( modifierJS ) ), null, 4 ),
+		{encoding: 'utf8'}
+	);
+}
+function extendCode( fns, fPath, type ){
+	fns.push(
+		function(cb){
+			fse.copy( path.join(__dirname, 'lib', 'template', type, 'Start.js'), path.join(fPath, 'Start.js'), { clobber: true }, cb );
+		}
+	);
+	fns.push(
+		function(cb){
+			modifyPackageJSON( path.join(__dirname, 'lib', 'template', type, 'package.js'), path.join(fPath, 'package.json') );
+		}
+	);
+}
 function copyfiles( fPath, options ){
 	var fns = [
 		function(cb){
-			fse.copy( path.join(__dirname, 'lib', 'template', 'code'), fPath, { clobber: !!options.forced }, cb );
+			fse.copy( path.join(__dirname, 'lib', 'template', 'code'), fPath, { clobber: !!options.force }, cb );
 		}
 	];
+	if( options.amqp ){
+		extendCode( fns, fPath, 'amqp' );
+	}
+	if( options.nsq ){
+		extendCode( fns, fPath, 'nsq' );
+	}
 	if( options.gulp ){
 		fns.push(
 			function(cb){
-				fse.copy( path.join(__dirname, 'lib', 'template', 'gulp'), fPath, { clobber: !!options.forced }, cb );
+				fse.copy( path.join(__dirname, 'lib', 'template', 'gulp'), fPath, { clobber: !!options.force }, cb );
 			}
 		);
 	}
@@ -38,7 +65,7 @@ function copyfiles( fPath, options ){
 function createProject( name, options ){
 	var fPath = path.join( '.', name);
 	if( fs.existsSync( fPath ) ){
-		if( options.forced && fs.statSync(fPath).isDirectory() ){
+		if( options.force && fs.statSync(fPath).isDirectory() ){
 			return copyfiles( fPath, options );
 		}
 		else return console.error('Such file/folder already exists.');
@@ -80,7 +107,7 @@ function readCommand( commands, command ){
 	return false;
 }
 
-var optionsAccepted = [ 'force', 'gulp', 'mocha', 'folder' ];
+var optionsAccepted = [ 'force', 'gulp', 'mocha', 'folder', 'amqp', 'nsq' ];
 function collectOptions( commands ){
 	var res = {};
 	optionsAccepted.forEach(function( option ){

@@ -9,7 +9,7 @@
     "start": "node Start.js"
   },
   "dependencies": {
-    "floca": "latest",
+    "floca": "^0.9.0",
     "loadash": "~3",
     "mkdirp": "^0.5.1"
   },

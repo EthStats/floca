@@ -1,13 +1,17 @@
 var Server = require('./lib/Server');
 var configServices = require('./ConfigServices');
 var async = require('async');
+var Channeller = require('./lib/Channeller');
 
 function Fuser( option ){
 	this.option = option || {};
 
+	this.channeller = option.channeller || new Channeller();
 	configServices.file( './lib/defaultConfig' ).argv().env().add( this.option );
 
 	this.config = configServices.config();
+
+	this.channeller.init( this.config );
 }
 
 var FuserProto = Fuser.prototype;
@@ -17,7 +21,7 @@ FuserProto.start = function( callbackFn ){
 
 	var calls = [
 		function(cb){
-			self.server = new Server( self.config, cb );
+			self.server = new Server( self.config, self.channeller, cb );
 		},
 		function(cb){
 			self.server.serve( cb );
@@ -30,6 +34,8 @@ FuserProto.start = function( callbackFn ){
 			callbackFn(err, res);
 	} );
 };
+
+FuserProto.Channeller = Channeller;
 
 FuserProto.stop = function( callbackFn, err, res ){
 	if( this.server )
