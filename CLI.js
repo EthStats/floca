@@ -19,7 +19,6 @@ function printUsage(){
 }
 
 function modifyPackageJSON( modifierJS, json ){
-	console.log( modifierJS );
 	fs.writeFileSync( json,
 		JSON.stringify( _.assign( JSON.parse( fs.readFileSync( json, {encoding: 'utf8'} ) ), require( modifierJS ) ), null, 4 ),
 		{encoding: 'utf8'}
