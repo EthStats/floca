@@ -76,8 +76,14 @@ function createProject( name, options ){
 	});
 }
 
-function createServiceCode( options ){
-
+function createServiceCode( entity, fPath, options ){
+	var entityPath = path.join(__dirname, 'lib', 'template', 'service', 'entity.js');
+	var jsPath = path.join(fPath, 'bus', entity + '.js');
+	fs.writeFileSync( jsPath,
+		fs.readFileSync( entityPath, {encoding: 'utf8'} ).replace( '$$$name$$$', '\'' + entity + '\'' ).replace( '$$$rest$$$', options.rest ? 'true' : 'false' ).replace( '$$$websocket$$$', options.websocket ? 'true' : 'false' ),
+		{encoding: 'utf8'}
+	);
+	console.error('Done.');
 }
 function createMochaCode( options ){
 	var config = require('./config');
@@ -85,14 +91,14 @@ function createMochaCode( options ){
 	return Collector.generateTests( config, options.folder || 'test' );
 }
 
-function createCode( codeType, options ){
+function createCode( codeType, name, options ){
 	if( codeType === 'test' ){
 		if( options.mocha )
 			return createMochaCode( options );
 	}
-	/*else if( codeType === 'service' ){
-		return createServiceCode( options );
-	}*/
+	else if( codeType === 'service' ){
+		return createServiceCode( name, process.cwd(), options );
+	}
 	printUsage();
 }
 
@@ -106,7 +112,7 @@ function readCommand( commands, command ){
 	return false;
 }
 
-var optionsAccepted = [ 'force', 'gulp', 'mocha', 'folder', 'amqp', 'nsq' ];
+var optionsAccepted = [ 'force', 'gulp', 'mocha', 'folder', 'amqp', 'nsq', 'rest', 'websocket' ];
 function collectOptions( commands ){
 	var res = {};
 	optionsAccepted.forEach(function( option ){
@@ -125,7 +131,7 @@ function execute(){
 		case 'create':
 			return createProject( commands[1], options );
 		case 'generate':
-			return createCode( commands[1], options );
+			return createCode( commands[1], commands[2], options );
 		default:
 			return printUsage();
 	}
