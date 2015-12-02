@@ -325,7 +325,7 @@ You might not need all of them, probably none of them. See an example config fil
 The very pure way to define REST middlewares for auth libraries like [Passport](http://passportjs.org) and any kind of low-level solution.
 
 ```javascript
-	extendPureREST: function( app ){
+	extendPureREST: function( app, pathToIgnore, harcon, tools ){
 		app.get('/auth/provider', passport.authenticate('provider') );
 	}
 ```
