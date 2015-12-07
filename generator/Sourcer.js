@@ -1,4 +1,6 @@
 
+var _ = require('lodash');
+
 var KEYWORD_REGEXP = /^(abstract|boolean|break|byte|case|catch|char|class|const|continue|debugger|default|delete|do|double|else|enum|export|extends|false|final|finally|float|for|function|goto|if|implements|import|in|instanceof|int|interface|long|native|new|null|package|private|protected|public|return|short|static|super|switch|synchronized|this|throw|throws|transient|true|try|typeof|undefined|var|void|volatile|while|with)$/;
 
 function legalKey(string) {
@@ -26,33 +28,24 @@ function stringifyRegExp(re) {
 }
 
 
-module.exports = function (object, filter, indent, startingIndent) {
+module.exports = function (object, indent, startingIndent) {
 	var seen = [];
 
-	function walk(object, filter, indent, currentIndent, seen) {
+	function walk(object, indent, currentIndent, seen) {
 		var nextIndent = currentIndent + indent;
-		object = filter ? filter(object) : object;
 
-		switch (typeof object) {
-		case 'string':
+		if( _.isString( object ) )
 			return JSON.stringify(object);
-		case 'boolean':
-		case 'number':
-		case 'undefined':
+		if( _.isBoolean( object ) || _.isNumber( object ) )
 			return '' + object;
-		case 'function':
+		if( _.isFunction( object ) )
 			return object.toString();
-		}
-
-		if (object === null) {
-			return 'null';
-		}
-		if (object instanceof RegExp) {
+		if ( _.isRegExp( object ) )
 			return stringifyRegExp(object);
-		}
-		if (object instanceof Date) {
+		if ( _.isDate( object ) )
 			return 'new Date(' + object.getTime() + ')';
-		}
+		if (object === null)
+			return 'null';
 
 		var seenIndex = seen.indexOf(object) + 1;
 		if (seenIndex > 0) {
@@ -60,20 +53,18 @@ module.exports = function (object, filter, indent, startingIndent) {
 		}
 		seen.push(object);
 
-		function join(elements) {
-			return indent.slice(1) + elements.join(',' + (indent && '\n') + nextIndent); // + (indent ? ' ' : '');
+		if (_.isArray(object)) {
+			return '[ ' + object.map(function (element) {
+				return walk(element, indent, nextIndent, seen.slice());
+			}).join(', ') + ' ]';
 		}
-
-		if (Array.isArray(object)) {
-			return '[' + join(object.map(function (element) {
-				return walk(element, filter, indent, nextIndent, seen.slice());
-			})) + ']';
+		if (_.isObject(object)) {
+			var keys = Object.keys(object);
+			return keys.length ? '{\n' + keys.map( function (key) {
+				return nextIndent + (legalKey(key) ? key : JSON.stringify(key)) + ': ' + walk(object[key], indent, nextIndent, seen.slice());
+			}).join(',\n') + '\n' + currentIndent + '}' : '{ }';
 		}
-		var keys = Object.keys(object);
-		return keys.length ? '{\n' + join(keys.map(function (key) {
-			return (legalKey(key) ? key : JSON.stringify(key)) + ': ' + walk(object[key], filter, indent, nextIndent, seen.slice());
-		})) + '\n}' : '{}';
 	}
 
-	return walk(object, filter, indent === undefined ? '  ' : (indent || ''), startingIndent || '', seen);
+	return walk(object, indent || '\t', startingIndent || '', seen);
 };

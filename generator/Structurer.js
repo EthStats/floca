@@ -34,7 +34,7 @@ function addServiceToEntity( component, service, entityPath, options ){
 	component[ service ] = function( terms, ignite, callback ){
 		callback( new Error('To be filled') );
 	};
-	fs.writeFileSync( entityPath, 'module.exports = ' + Sourcer( component, null, options.spaces ? '    ' : '\t' ) + ';\n', {encoding: 'utf8'} );
+	fs.writeFileSync( entityPath, 'module.exports = ' + Sourcer( component, '\t' ) + ';\n', {encoding: 'utf8'} );
 }
 
 function copyfiles( fPath, options ){
@@ -75,10 +75,29 @@ module.exports = {
 	createEntity: function( name, options ){
 		var entityPath = path.join(__dirname, 'template', 'service', 'entity.js');
 		var jsPath = path.join( process.cwd(), 'bus', name + '.js');
+		if( fs.existsSync(jsPath) && !options.force )
+			global.forceExit('Such file/folder already exists.');
 		fs.writeFileSync( jsPath,
-			fs.readFileSync( entityPath, {encoding: 'utf8'} ).replace( '$$$name$$$', '\'' + name + '\'' ).replace( '$$$rest$$$', options.rest ? 'true' : 'false' ).replace( '$$$websocket$$$', options.websocket ? 'true' : 'false' ),
+			fs.readFileSync( entityPath, {encoding: 'utf8'} ).replace( '$$$name$$$', '\'' + name + '\'' ).replace( '$$$rest$$$', options.rest ? '\trest: true,' : '' ).replace( '$$$websocket$$$', options.websocket ? '\twebsocket: true,' : '' ),
 			{encoding: 'utf8'}
 		);
+		//if( options.rest || options.websocket ){
+		var configPath = path.join( process.cwd(), 'config.js' );
+		try{
+			var config = require( configPath );
+			if( options.rest || options.websocket ){
+				delete config.server.active;
+				config.server.port = 8080;
+			}
+			else{
+				delete config.server.port;
+				config.server.active = false;
+			}
+			fs.writeFileSync( configPath, 'module.exports = ' + Sourcer( config, '\t' ) + ';\n', {encoding: 'utf8'} );
+		} catch(err){
+			global.forceExit('The config file seems not to be valid.');
+		}
+		//}
 		console.log('Done.');
 	},
 	createService: function( entity, service, options ){
