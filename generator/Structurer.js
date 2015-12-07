@@ -5,6 +5,8 @@ var path = require('path');
 var _ = require('lodash');
 var async = require('async');
 
+var Sourcer = require('./Sourcer');
+
 function modifyPackageJSON( modifierJS, json ){
 	fs.writeFileSync( json,
 		JSON.stringify( _.assign( JSON.parse( fs.readFileSync( json, {encoding: 'utf8'} ) ), require( modifierJS ) ), null, 4 ),
@@ -22,6 +24,17 @@ function extendCode( fns, fPath, type ){
 			modifyPackageJSON( path.join(__dirname, 'template', type, 'package.js'), path.join(fPath, 'package.json') );
 		}
 	);
+}
+
+function validateEntity(entity){
+	return entity.name && entity.init && _.isFunction( entity.init );
+}
+
+function addServiceToEntity( component, service, entityPath, options ){
+	component[ service ] = function( terms, ignite, callback ){
+		callback( new Error('To be filled') );
+	};
+	fs.writeFileSync( entityPath, 'module.exports = ' + Sourcer( component, null, options.spaces ? '    ' : '\t' ) + ';\n', {encoding: 'utf8'} );
 }
 
 function copyfiles( fPath, options ){
@@ -68,7 +81,15 @@ module.exports = {
 		);
 		console.log('Done.');
 	},
-	createService: function( name, options ){
-		// process.cwd()
+	createService: function( entity, service, options ){
+		try{
+			var entityPath = path.join( process.cwd(), 'bus', entity.endsWith('.js') ? entity : entity+'.js' );
+			var component = require( entityPath );
+			if( !validateEntity(component) )
+				return global.forceExit('Component does not seem to be a floca entity!', entity);
+			addServiceToEntity( component, service, entityPath, options );
+		} catch(err){
+			console.error( err );
+		}
 	}
 };
