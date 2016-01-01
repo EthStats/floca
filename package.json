@@ -1,6 +1,6 @@
 {
   "name": "floca",
-  "version": "0.9.60",
+  "version": "0.9.61",
   "description": "Enterprise-grade microservice solution for NodeJS",
   "keywords": [
     "microservice",
