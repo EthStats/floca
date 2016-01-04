@@ -46,7 +46,7 @@ function createCode( codeType, name, options ){
 	global.printUsage();
 }
 
-var optionsAccepted = [ 'alice', 'force', 'gulp', 'mocha', 'folder', 'amqp', 'nsq', 'rest', 'websocket' ];
+var optionsAccepted = [ 'alice', 'force', 'gulp', 'mocha', 'folder', 'amqp', 'nsq', 'rest', 'websocket', 'projectFolder' ];
 function readCommand( commands, command ){
 	for( var i =0; i<commands.length; ++i ){
 		if( commands[i] === command )

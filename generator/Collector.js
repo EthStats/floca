@@ -65,11 +65,11 @@ module.exports = {
 				callback( err );
 		} );
 	},
-	generateTests: function( config, testFolder ){
+	generateTests: function( config, testFolder, options ){
 		var self = this;
 		start( config, function(err, res){
 			console.log('Server started with the following components:', res.components);
-			var fPath = path.join( process.cwd(), testFolder );
+			var fPath = path.join( options.projectFolder || process.cwd(), testFolder );
 			var closer = function(){
 				res.fuser.stop( function(){
 					console.log('Done.');
