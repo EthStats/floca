@@ -54,7 +54,7 @@ function copyfiles( fPath, options ){
 
 module.exports = {
 	createProject: function( name, options ){
-		var fPath = path.join( '.', name);
+		var fPath = path.join( options.projectFolder || '.', name);
 		if( fs.existsSync( fPath ) ){
 			if( options.force && fs.statSync(fPath).isDirectory() ){
 				copyfiles( fPath, options );
