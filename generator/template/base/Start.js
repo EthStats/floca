@@ -1,12 +1,6 @@
 var Fuser = require('floca');
-var _ = require('lodash');
 
-var fuser = new Fuser( _.assign( {
-	entities: {
-		appName: 'DemoApp',
-		serviceName: 'DemoMicroService'
-	}
-}, require('./config') ) );
+var fuser = new Fuser( require('./config') );
 
 fuser.start( function(){
 	console.log('Started.');

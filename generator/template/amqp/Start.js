@@ -4,11 +4,7 @@ var _ = require('lodash');
 
 var fuserAMQP = new FuserAMQP();
 var fuser = new Fuser( _.assign( {
-	channeller: fuserAMQP,
-	entities: {
-		appName: 'DemoApp',
-		serviceName: 'DemoMicroService'
-	}
+	channeller: fuserAMQP
 }, require('./config') ) );
 
 fuser.start( function(){

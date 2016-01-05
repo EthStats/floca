@@ -4,11 +4,7 @@ var _ = require('lodash');
 
 var fuserNSQ = new FuserNSQ();
 var fuser = new Fuser( _.assign( {
-	channeller: fuserNSQ,
-	entities: {
-		appName: 'DemoApp',
-		serviceName: 'DemoMicroService'
-	}
+	channeller: fuserNSQ
 }, require('./config') ) );
 
 fuser.start( function(){

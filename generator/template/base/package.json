@@ -9,9 +9,8 @@
     "start": "node Start.js"
   },
   "dependencies": {
-    "floca": "^0.9.0",
-    "lodash": "~3",
-    "mkdirp": "^0.5.1"
+    "floca": "^0.9.80",
+    "lodash": "~3"
   },
   "devDependencies": {},
   "engines": {

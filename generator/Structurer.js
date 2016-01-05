@@ -31,8 +31,8 @@ function validateEntity(entity){
 }
 
 function addServiceToEntity( component, service, entityPath, options ){
-	component[ service ] = function( terms, ignite, callback ){
-		callback( new Error('To be filled') );
+	component[ service ] = function( message, terms, ignite, callback ){
+		callback( null, this.name + ': ' + message );
 	};
 	fs.writeFileSync( entityPath, 'module.exports = ' + Sourcer( component, '\t' ) + ';\n', {encoding: 'utf8'} );
 }
@@ -53,6 +53,26 @@ function copyfiles( fPath, options ){
 }
 
 module.exports = {
+	addEntityName: function( fPath, name ){
+		var packageFile = path.join( fPath, 'package.json' );
+		fs.writeFileSync( packageFile,
+			fs.readFileSync( packageFile, {encoding: 'utf8'} ).replace( /\"name\"\:\s\"ToBeFilled\"/, '\"name\": \"' + name + '\"' ),
+			{encoding: 'utf8'}
+		);
+
+		var configFile = path.join( fPath, 'config.js' );
+		fs.writeFileSync( configFile,
+			fs.readFileSync( configFile, {encoding: 'utf8'} ).replace( /serviceName\:\s\'ServicesName\'/, 'serviceName: \'' + name + '\'' ),
+			{encoding: 'utf8'}
+		);
+	},
+	addAppName: function( fPath, name ){
+		var configFile = path.join( fPath, 'config.js' );
+		fs.writeFileSync( configFile,
+			fs.readFileSync( configFile, {encoding: 'utf8'} ).replace( /appName\:\s\'AppName\'/, 'appName: \'' + name + '\'' ),
+			{encoding: 'utf8'}
+		);
+	},
 	createProject: function( name, options ){
 		var fPath = path.join( options.projectFolder || '.', name);
 		if( fs.existsSync( fPath ) ){
@@ -70,6 +90,12 @@ module.exports = {
 		if( options.alice ){
 			fse.copySync( path.join( __dirname, 'template', 'alice'), fPath, { clobber: true } );
 		}
+
+		this.addEntityName( fPath, name );
+		if( options.appName ){
+			this.addAppName( fPath, options.appName );
+		}
+
 		global.done( );
 	},
 	createEntity: function( name, options ){
@@ -81,13 +107,12 @@ module.exports = {
 			fs.readFileSync( entityPath, {encoding: 'utf8'} ).replace( '$$$name$$$', '\'' + name + '\'' ).replace( '$$$rest$$$', options.rest ? '\trest: true,' : '' ).replace( '$$$websocket$$$', options.websocket ? '\twebsocket: true,' : '' ),
 			{encoding: 'utf8'}
 		);
-		//if( options.rest || options.websocket ){
 		var configPath = path.join( options.projectFolder || process.cwd(), 'config.js' );
 		try{
 			var config = require( configPath );
 			if( options.rest || options.websocket ){
 				delete config.server.active;
-				config.server.port = 8080;
+				config.server.port = options.servicePort || 8080;
 			}
 			else{
 				delete config.server.port;
@@ -107,6 +132,7 @@ module.exports = {
 			if( !validateEntity(component) )
 				return global.forceExit('Component does not seem to be a floca entity!', entity);
 			addServiceToEntity( component, service, entityPath, options );
+			console.log('Done.');
 		} catch(err){
 			console.error( err );
 		}
