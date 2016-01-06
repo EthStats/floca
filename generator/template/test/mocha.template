@@ -28,7 +28,7 @@ describe("Test", function () {
 		fuser.start( function( err ){
 			if( err ) done( err );
 
-			socketClient = ioclient( 'http://localhost:' + config.server.port + '/' + config.entities.appName );
+			socketClient = ioclient( 'http://localhost:' + config.server.port + '/' + config.floca.appName );
 			done( );
 		} );
 	});

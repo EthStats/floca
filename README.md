@@ -391,7 +391,7 @@ In a highly fragmented system, the configuration management should be centralise
 
 ```javascript
 	...
-	entities: {
+	floca: {
 		configurator: 'Tuner'
 	},
 	...
