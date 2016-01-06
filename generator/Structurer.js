@@ -62,7 +62,7 @@ module.exports = {
 
 		var configFile = path.join( fPath, 'config.js' );
 		fs.writeFileSync( configFile,
-			fs.readFileSync( configFile, {encoding: 'utf8'} ).replace( /serviceName\:\s\'ServicesName\'/, 'serviceName: \'' + name + '\'' ),
+			fs.readFileSync( configFile, {encoding: 'utf8'} ).replace( /entityName\:\s\'EntityName\'/, 'entityName: \'' + name + '\'' ),
 			{encoding: 'utf8'}
 		);
 	},

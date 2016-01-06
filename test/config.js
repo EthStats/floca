@@ -2,8 +2,8 @@ module.exports = {
 	Alice: {
 		name: 'Miapálya?'
 	},
-	entities: {
+	floca: {
 		appName: 'DemoApp',
-		serviceName: 'DemoMicroService'
+		entityName: 'DemoMicroEntity'
 	}
 };

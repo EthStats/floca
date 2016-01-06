@@ -69,9 +69,9 @@ The initial project will contain:
 var Floca = require('floca');
 
 var floca = new Floca({
-	entities: {
+	floca: {
 		appName: 'NameOfYourApp',
-		serviceName: 'NameOfYourMicroService'
+		entityName: 'NameOfYourMicroService'
 	}
 });
 
@@ -113,10 +113,10 @@ Each microservice must have a unique name and must belong to an application or d
 ```javascript
 {
 	...
-	entities: {
+	floca: {
 		folder: path.join( process.cwd(), 'bus'),
 		appName: 'APP_NAME_IS_MISSING',
-		serviceName: 'SERVICE_NAME_IS_MISSING',
+		entityName: 'ENTITY_NAME_IS_MISSING',
 		configurator: 'Tuner'
 	}
 	...
@@ -126,10 +126,10 @@ Each microservice must have a unique name and must belong to an application or d
 Microservices will be read from the folder defined by the attribute 'folder'. An inner entity, called 'Publisher' watches that folder and according to the changes at file-level, the micoservice entities will be republished or removed.
 The folder 'bus' in the root of your project is the default spot.
 
-The attributes 'appName' and 'serviceName' are used to identify the app and the microservice and to identify the constructs in the message bus.
+The attributes 'appName' and 'entityName' are used to identify the app and the microservice and to identify the constructs in the message bus.
 
 if the attribute 'configurator' is present, the Publisher will use to get the initial configuration of the microservices before publishing. This way, you can have a centralised configuration microservice with a name identified by the attribute 'configurator' and all microservices within the same app can reach it and be configured by the object such microservices retrieves.
-The Publisher will send a message to the configurator microservice passing the appName and serviceName and accept the JS object interpreted as configuration and passed to the microservice.
+The Publisher will send a message to the configurator microservice passing the appName and entityName and accept the JS object interpreted as configuration and passed to the microservice.
 
 
 ## AMQP

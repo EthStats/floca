@@ -1,7 +1,7 @@
 module.exports = {
-	entities: {
+	floca: {
 		appName: 'AppName',
-		serviceName: 'ServicesName'
+		entityName: 'EntityName'
 	},
 	server: {
 		active: false

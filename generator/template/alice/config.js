@@ -2,9 +2,9 @@ module.exports = {
 	Alice: {
 		name: 'My name is Alice!'
 	},
-	entities: {
+	floca: {
 		appName: 'AppName',
-		serviceName: 'ServicesName'
+		entityName: 'EntityName'
 	},
 	server: {
 		active: false
