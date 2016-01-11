@@ -4,13 +4,20 @@ Usage:
 
 List of supported commands:
 - create
-	-project <name>: creates a new folder with a structure supporting floca-based microservices
-	-entity <name>: creates a new floca-entity to the folder 'bus' inside the project's folder
+	-project <name> [<project_options>]: creates a new folder with a structure supporting floca-based microservices
+	-entity <name> [<entity_options>]: creates a new floca-entity to the folder 'bus' inside the project's folder
 	-service <name>: creates a service function to the prototype of the given floca-entity inside the project's folder
 - generate: generates code to add new features. Must be executed in the folder of your floca-based project.
 	- test [--mocha]: analysis the folder of 'bus' and generates tests to the folder 'test' using the existing configuration
 
-List of supported options:
+List of project options:
 --force : force operation of target folders/files already exist
---amqp : when project is being generated, AMQP is added as message bus provider
---nsq : when project is being generated, NSQ is added as message bus provider
+--amqp : AMQP to be added as message bus provider
+--nsq : NSQ to be added as message bus provider
+--web : Web layer to be added
+--gulp : Gulp build to be added
+
+List of project options:
+--force : force operation of target folders/files already exist
+--rest : entity will provide service available on REST
+--websocket : entity will provide service available on Websocket
