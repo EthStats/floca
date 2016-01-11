@@ -52,7 +52,7 @@ function readTail(file){
 gulp.task('watch-server', function () {
 	execute( 'start' );
 
-	var watcher = gulp.watch(['./bus/**/*.js'], buildTasks );
+	var watcher = gulp.watch(['./server/**/*.js'], buildTasks );
 	watcher.on('change', function(event) {
 		execute( 'restart' );
 	});

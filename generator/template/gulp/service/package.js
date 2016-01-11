@@ -4,7 +4,7 @@ module.exports = {
 		forever: "latest",
 		gulp: "~3",
 		"gulp-eslint": "~1",
-		"gulp-istanbul": "^0.10.2",
+		"gulp-istanbul": "^0.10.3",
 		"gulp-load-plugins": "~1",
 		"gulp-mocha": "~2",
 		"gulp-plumber": "~1",

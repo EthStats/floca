@@ -7,22 +7,12 @@ var async = require('async');
 
 var Sourcer = require('./Sourcer');
 
+var tempPathFn = path.join.bind( path, __dirname, 'template' );
+
 function modifyPackageJSON( modifierJS, json ){
 	fs.writeFileSync( json,
-		JSON.stringify( _.assign( JSON.parse( fs.readFileSync( json, {encoding: 'utf8'} ) ), require( modifierJS ) ), null, 4 ),
+		JSON.stringify( _.merge( JSON.parse( fs.readFileSync( json, {encoding: 'utf8'} ) ), require( modifierJS ) ), null, 4 ),
 		{encoding: 'utf8'}
-	);
-}
-function extendCode( fns, fPath, type ){
-	fns.push(
-		function(cb){
-			fse.copySync( path.join(__dirname, 'template', type, 'Start.js'), path.join(fPath, 'Start.js'), { force: true }, cb );
-		}
-	);
-	fns.push(
-		function(cb){
-			modifyPackageJSON( path.join(__dirname, 'template', type, 'package.js'), path.join(fPath, 'package.json') );
-		}
 	);
 }
 
@@ -37,37 +27,40 @@ function addServiceToEntity( component, service, entityPath, options ){
 	fs.writeFileSync( entityPath, 'module.exports = ' + Sourcer( component, '\t' ) + ';\n', {encoding: 'utf8'} );
 }
 
-function copyfiles( fPath, options ){
-	fse.copySync( path.join(__dirname, 'template', 'base'), fPath, { clobber: !!options.force } );
+function copyfiles( fPath, fPathFn, options ){
+	fse.copySync( tempPathFn('base'), fPath, { clobber: !!options.force } );
 	if( options.amqp ){
-		fse.copySync( path.join(__dirname, 'template', 'amqp', 'Start.js'), path.join(fPath, 'Start.js'), { clobber: true } );
-		modifyPackageJSON( path.join(__dirname, 'template', 'amqp', 'package.js'), path.join(fPath, 'package.json') );
+		fse.copySync( tempPathFn('amqp', 'Start.js'), fPathFn('Start.js'), { clobber: true } );
+		modifyPackageJSON( tempPathFn('amqp', 'package.js'), fPathFn('package.json') );
 	}
 	if( options.nsq ){
-		fse.copySync( path.join(__dirname, 'template', 'nsq', 'Start.js'), path.join(fPath, 'Start.js'), { clobber: true } );
-		modifyPackageJSON( path.join(__dirname, 'template', 'nsq', 'package.js'), path.join(fPath, 'package.json') );
+		fse.copySync( tempPathFn('nsq', 'Start.js'), fPathFn('Start.js'), { clobber: true } );
+		modifyPackageJSON( tempPathFn('nsq', 'package.js'), fPathFn('package.json') );
 	}
 	if( options.gulp ){
-		fse.copySync( path.join(__dirname, 'template', 'gulp'), fPath, { clobber: !!options.force } );
+		var folder = options.web ? 'web' : 'service';
+		fse.copySync( tempPathFn('gulp', folder, 'Gulpfile.js' ), fPathFn( 'Gulpfile.js' ), { clobber: !!options.force } );
+		fse.copySync( tempPathFn('gulp', folder, 'gulp' ), fPathFn( 'gulp' ), { clobber: !!options.force } );
+		modifyPackageJSON( tempPathFn('gulp', folder, 'package.js'), fPathFn('package.json') );
 	}
 }
 
 module.exports = {
-	addEntityName: function( fPath, name ){
-		var packageFile = path.join( fPath, 'package.json' );
+	addEntityName: function( fPathFn, name ){
+		var packageFile = fPathFn( 'package.json' );
 		fs.writeFileSync( packageFile,
 			fs.readFileSync( packageFile, {encoding: 'utf8'} ).replace( /\"name\"\:\s\"ToBeFilled\"/, '\"name\": \"' + name + '\"' ),
 			{encoding: 'utf8'}
 		);
 
-		var configFile = path.join( fPath, 'config.js' );
+		var configFile = fPathFn( 'config.js' );
 		fs.writeFileSync( configFile,
 			fs.readFileSync( configFile, {encoding: 'utf8'} ).replace( /entityName\:\s\'EntityName\'/, 'entityName: \'' + name + '\'' ),
 			{encoding: 'utf8'}
 		);
 	},
-	addAppName: function( fPath, name ){
-		var configFile = path.join( fPath, 'config.js' );
+	addAppName: function( fPathFn, name ){
+		var configFile = fPathFn( 'config.js' );
 		fs.writeFileSync( configFile,
 			fs.readFileSync( configFile, {encoding: 'utf8'} ).replace( /appName\:\s\'AppName\'/, 'appName: \'' + name + '\'' ),
 			{encoding: 'utf8'}
@@ -75,31 +68,41 @@ module.exports = {
 	},
 	createProject: function( name, options ){
 		var fPath = path.join( options.projectFolder || '.', name);
+		var fPathFn = path.join.bind( path, fPath );
+
 		if( fs.existsSync( fPath ) ){
 			if( options.force && fs.statSync(fPath).isDirectory() ){
-				copyfiles( fPath, options );
+				copyfiles( fPath, fPathFn, options );
 			}
 			else
 				global.forceExit('Such file/folder already exists.');
 		}
 		else{
 			fse.mkdirsSync( fPath );
-			copyfiles( fPath, options );
+			copyfiles( fPath, fPathFn, options );
 		}
 
 		if( options.alice ){
-			fse.copySync( path.join( __dirname, 'template', 'alice'), fPath, { clobber: true } );
+			fse.copySync( tempPathFn('alice'), fPath, { clobber: true } );
 		}
 
-		this.addEntityName( fPath, name );
+		if( options.web ){
+			fse.copySync( tempPathFn('web', 'src'), fPathFn( 'src' ), { clobber: true } );
+			fse.copySync( tempPathFn('web', 'bus'), fPathFn( 'bus' ), { clobber: true } );
+			fse.copySync( tempPathFn('web', 'providers'), fPathFn( 'providers' ), { clobber: true } );
+			fse.copySync( tempPathFn('web', 'config.js'), fPathFn( 'config.js' ), { clobber: true } );
+			modifyPackageJSON( tempPathFn('web', 'package.js'), fPathFn( 'package.json' ) );
+		}
+
+		this.addEntityName( fPathFn, name );
 		if( options.appName ){
-			this.addAppName( fPath, options.appName );
+			this.addAppName( fPathFn, options.appName );
 		}
 
 		global.done( );
 	},
 	createEntity: function( name, options ){
-		var entityPath = path.join( __dirname, 'template', 'service', 'entity.js');
+		var entityPath = tempPathFn('service', 'entity.js');
 		var jsPath = path.join( options.projectFolder || process.cwd(), 'bus', name + '.js');
 		if( fs.existsSync(jsPath) && !options.force )
 			global.forceExit('Such file/folder already exists.');
