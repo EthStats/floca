@@ -110,6 +110,9 @@ module.exports = {
 		global.done( );
 	},
 	createEntity: function( name, options ){
+		var fPath = path.join( options.projectFolder || '.', name);
+		var fPathFn = path.join.bind( path, fPath );
+
 		var entityPath = tempPathFn('service', 'entity.js');
 		var jsPath = path.join( options.projectFolder || process.cwd(), 'bus', name + '.js');
 		if( fs.existsSync(jsPath) && !options.force )
@@ -118,6 +121,16 @@ module.exports = {
 			fs.readFileSync( entityPath, {encoding: 'utf8'} ).replace( '$$$name$$$', '\'' + name + '\'' ).replace( '$$$rest$$$', options.rest ? '\trest: true,' : '' ).replace( '$$$websocket$$$', options.websocket ? '\twebsocket: true,' : '' ),
 			{encoding: 'utf8'}
 		);
+		if( options.rest || options.websocket ){
+			var configPath = fPathFn( 'config.js' );
+			try{
+				var config = require( configPath );
+				config.server.active = true;
+				fs.writeFileSync( configPath, 'module.exports = ' + Sourcer( config, '\t' ) + ';\n', {encoding: 'utf8'} );
+			} catch(err){
+				global.forceExit('The config file seems not to be valid.');
+			}
+		}
 		console.log('Done.');
 	},
 	createService: function( entity, service, options ){
