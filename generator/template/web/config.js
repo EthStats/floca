@@ -13,6 +13,17 @@ module.exports = {
 	server: {
 		active: true
 	},
+	radiation: {
+		name: 'Radiation',
+		rest: {
+			ignoreRESTPattern: true,
+			harconrpcPath: '/Harcon'
+		},
+		websocket: {
+			socketPath: '/Harcon',
+			passthrough: true
+		}
+	},
 	connectMiddlewares: function( config ){
 		var wares = [
 			timeout( 5000 ),

@@ -447,7 +447,7 @@ Tests are generated with _always accept_ behavior waiting for being unfold.
 
 (The MIT License)
 
-Copyright (c) 2015 Upwards Motion Ltd (1st Floor, 2 Woodberry Grove, Finchley, London N12 0DR; Company Registration No: 09074890)
+Copyright (c) 2016 Upwards Motion Ltd (1st Floor, 2 Woodberry Grove, Finchley, London N12 0DR; Company Registration No: 09074890)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in

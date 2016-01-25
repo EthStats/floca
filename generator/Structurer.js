@@ -91,6 +91,14 @@ module.exports = {
 			fse.copySync( tempPathFn('web', 'bus'), fPathFn( 'bus' ), { clobber: true } );
 			fse.copySync( tempPathFn('web', 'providers'), fPathFn( 'providers' ), { clobber: true } );
 			fse.copySync( tempPathFn('web', 'config.js'), fPathFn( 'config.js' ), { clobber: true } );
+			var configPath = fPathFn( 'config.js' );
+			try{
+				var config = require( configPath );
+				config.server.port = options.servicePort || 8080;
+				fs.writeFileSync( configPath, 'module.exports = ' + Sourcer( config, '\t' ) + ';\n', {encoding: 'utf8'} );
+			} catch(err){
+				global.forceExit('The config file seems not to be valid.');
+			}
 			modifyPackageJSON( tempPathFn('web', 'package.js'), fPathFn( 'package.json' ) );
 		}
 
@@ -110,22 +118,6 @@ module.exports = {
 			fs.readFileSync( entityPath, {encoding: 'utf8'} ).replace( '$$$name$$$', '\'' + name + '\'' ).replace( '$$$rest$$$', options.rest ? '\trest: true,' : '' ).replace( '$$$websocket$$$', options.websocket ? '\twebsocket: true,' : '' ),
 			{encoding: 'utf8'}
 		);
-		var configPath = path.join( options.projectFolder || process.cwd(), 'config.js' );
-		try{
-			var config = require( configPath );
-			if( options.rest || options.websocket ){
-				delete config.server.active;
-				config.server.port = options.servicePort || 8080;
-			}
-			else{
-				delete config.server.port;
-				config.server.active = false;
-			}
-			fs.writeFileSync( configPath, 'module.exports = ' + Sourcer( config, '\t' ) + ';\n', {encoding: 'utf8'} );
-		} catch(err){
-			global.forceExit('The config file seems not to be valid.');
-		}
-		//}
 		console.log('Done.');
 	},
 	createService: function( entity, service, options ){

@@ -15,9 +15,10 @@ List of project options:
 --amqp : AMQP to be added as message bus provider
 --nsq : NSQ to be added as message bus provider
 --web : Web layer to be added
+--servicePort: defines the port to be used for web projects
 --gulp : Gulp build to be added
 
-List of project options:
+List of entity options:
 --force : force operation of target folders/files already exist
 --rest : entity will provide service available on REST
 --websocket : entity will provide service available on Websocket

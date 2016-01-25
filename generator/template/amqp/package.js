@@ -1,6 +1,6 @@
 module.exports = {
 	dependencies: {
-		"floca": "^0.10.0",
+		"floca": "^0.11.0",
 		"floca-amqp": "latest",
 		"lodash": "~3"
 	}
