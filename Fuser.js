@@ -3,11 +3,13 @@ var configServices = require('./ConfigServices');
 var async = require('async');
 var Channeller = require('./lib/Channeller');
 
+var Configurer = require('./lib/DefaultConfigurer');
+
 function Fuser( option ){
 	this.option = option || {};
 
 	this.channeller = option.channeller || new Channeller();
-	configServices.file( './lib/defaultConfig' ).argv().env().add( this.option );
+	configServices.add( Configurer.config( option.floca.appName ) ).argv().env().add( this.option );
 
 	this.config = configServices.config();
 
