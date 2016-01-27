@@ -9,7 +9,7 @@
     "start": "node Start.js"
   },
   "dependencies": {
-    "floca": "^0.11.0",
+    "floca": "^0.11.4",
     "lodash": "~3"
   },
   "devDependencies": {},

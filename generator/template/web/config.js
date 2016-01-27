@@ -1,14 +1,13 @@
 var serveStatic = require('serve-static'),
-	helmet = require('helmet'),
-	timeout = require('connect-timeout');
+	helmet = require('helmet');
 
 var path = require('path');
 var Rester = require('./providers/Rester');
 
 module.exports = {
 	floca: {
-		appName: 'Nodrium',
-		entityName: 'UI'
+		appName: 'AppName',
+		entityName: 'EntityName'
 	},
 	server: {
 		active: true
@@ -26,7 +25,6 @@ module.exports = {
 	},
 	connectMiddlewares: function( config ){
 		var wares = [
-			timeout( 5000 ),
 			// helmet.csp( contentSecurityPolicy ),
 			helmet.xframe('deny'),
 			// helmet.xssFilter(),
