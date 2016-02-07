@@ -6,9 +6,10 @@ List of supported commands:
 - create
 	-project <name> [<project_options>]: creates a new folder with a structure supporting floca-based microservices
 	-entity <name> [<entity_options>]: creates a new floca-entity to the folder 'bus' inside the project's folder
-	-service <name>: creates a service function to the prototype of the given floca-entity inside the project's folder
+	-service <entity_name> <service_name>: creates a service function to the prototype of the given floca-entity inside the project's folder
 - generate: generates code to add new features. Must be executed in the folder of your floca-based project.
 	- test [--mocha]: analysis the folder of 'bus' and generates tests to the folder 'test' using the existing configuration
+	- interaction <interactionDef>: generates a service function which interacts with other entities
 
 List of project options:
 --force : force operation of target folders/files already exist
@@ -22,3 +23,42 @@ List of entity options:
 --force : force operation of target folders/files already exist
 --rest : entity will provide service available on REST
 --websocket : entity will provide service available on Websocket
+
+How to def interactions:
+	interactions::= <interaction>[_<interaction>]
+	interaction::= <serviceName>:<entity.message>[,<entity.message>]
+
+	example:
+	this comman "floca generate interaction Doer doSomething:B.act,C.act_askSomething:D.what,E.which"
+	will generate the following function inside entity 'Doer' in folder 'bus':
+
+		doSomething: function( message, terms, ignite, callback ) {
+			var fns = [];
+
+			fns.push( function( cb ){
+				ignite( 'B.act', message, cb );
+			} );
+
+			fns.push( function( cb ){
+				ignite( 'C.act', message, cb );
+			} );
+
+			async.series( fns, function(err, res){
+				callback( err, res );
+			} );
+		},
+		askSomething: function( message, terms, ignite, callback ) {
+			var fns = [];
+
+			fns.push( function( cb ){
+				ignite( 'D.what', message, cb );
+			} );
+
+			fns.push( function( cb ){
+				ignite( 'E.which', message, cb );
+			} );
+
+			async.series( fns, function(err, res){
+				callback( err, res );
+			} );
+		}

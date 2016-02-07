@@ -5,9 +5,13 @@ var path = require('path');
 var _ = require('lodash');
 var async = require('async');
 
+var beautify = require('js-beautify').js_beautify;
+var beautifyConfig = process.env.JS_BEAUTIFY_CONFIG ? require( process.env.JS_BEAUTIFY_CONFIG ) : { indent_size: 4, end_with_newline: true };
+
 var Sourcer = require('./Sourcer');
 
 var tempPathFn = path.join.bind( path, __dirname, 'template' );
+var serviceDef = fs.readFileSync( tempPathFn('service', 'service.def'), {encoding: 'utf8'} );
 
 function modifyPackageJSON( modifierJS, json ){
 	fs.writeFileSync( json,
@@ -20,11 +24,15 @@ function validateEntity(entity){
 	return entity.name && entity.init && _.isFunction( entity.init );
 }
 
-function addServiceToEntity( component, service, entityPath, options ){
-	component[ service ] = function( message, terms, ignite, callback ){
-		callback( null, this.name + ': ' + message );
-	};
-	fs.writeFileSync( entityPath, 'module.exports = ' + Sourcer( component, '\t' ) + ';\n', {encoding: 'utf8'} );
+function addServiceToEntity( service, entityPath, options ){
+	var entityDef = fs.readFileSync( entityPath, {encoding: 'utf8'} );
+
+	var fnDef = serviceDef.replace('$$$name$$$', service);
+	var code = beautify(
+		entityDef.substring( 0, entityDef.lastIndexOf('}') ) + fnDef + entityDef.substring( entityDef.lastIndexOf('}') ),
+		beautifyConfig
+	);
+	fs.writeFileSync( entityPath, code, {encoding: 'utf8'} );
 }
 
 function copyfiles( fPath, fPathFn, options ){
@@ -139,7 +147,7 @@ module.exports = {
 			var component = require( entityPath );
 			if( !validateEntity(component) )
 				return global.forceExit('Component does not seem to be a floca entity!', entity);
-			addServiceToEntity( component, service, entityPath, options );
+			addServiceToEntity( service, entityPath, options );
 			console.log('Done.');
 		} catch(err){
 			console.error( err );

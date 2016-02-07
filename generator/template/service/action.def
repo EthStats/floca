@@ -1,0 +1,4 @@
+
+		fns.push( function( cb ){
+			ignite( '$$$entity$$$', message, cb );
+		} );

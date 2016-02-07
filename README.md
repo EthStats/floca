@@ -411,11 +411,11 @@ Install floca with _-g_ switch:
 This will give you the _floca_ command line statement
 
 
-#### Generate Project
+#### Create Project
 
-To generate a new project execute the following:
+To create a new project execute the following:
 
-	$ floca create <projectName> [--amqp] [--nsq]
+	$ floca create project <projectName> [--amqp] [--nsq] [--web] [--gulp] [--force]
 
 This will create a folder _projectName_ inside the execution folder and creates a minimal viable [floca](https://github.com/UpwardsMotion/floca) project using the transport provider you might pass.
 The project can be used right away:
@@ -423,7 +423,30 @@ The project can be used right away:
 	$ npm install
 	$ npm start
 
+You can tell _floca_ to generate code for a web server if your project aims to serve pages.
+Gulp is also an project creational option if you need Gulp build scripts for your project.
+
 Extend the bus folder with entities and have a happy coding!
+
+
+#### Create Entity
+
+From the your floca working folder, you can create an Entity by CLI:
+
+	$ floca create entity <entityName> [--rest] [--websocket]
+
+This will create a business entity JS file inside your _'bus'_ folder optionally with REST and/or Websocket ports opened.
+
+
+#### Create Service
+
+You can add service functions to your entities as shown below:
+
+	$ floca create service <entityName> <serviceName>
+
+The JS file identified by the _"serviceName"_ will be opened and a JS flocal function will be added to with the name _"serviceName"_.
+
+You can address other entities from there in respect your business flow.
 
 
 #### Generate Test Mocha code
@@ -474,6 +497,7 @@ See <https://github.com/UpwardsMotion/floca/issues>.
 
 ## Changelog
 
+- 0.9.0: Tons of fixes and improvements
 - 0.5.0: JWT integration added.
 - 0.3.0: CLI tool added.
 - 0.1.0: First version released.

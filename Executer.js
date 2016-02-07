@@ -38,10 +38,13 @@ function createStructure( structure, name, options, commands ){
 	global.printUsage();
 }
 
-function createCode( codeType, name, options ){
+function createCode( codeType, name, options, commands ){
 	if( codeType === 'test' ){
 		if( options.mocha )
 			return Injector.createMochaCode( options );
+	}
+	else if( codeType === 'interaction' ){
+		return Injector.createInteraction( name, commands[3], options );
 	}
 	global.printUsage();
 }
@@ -75,7 +78,7 @@ module.exports = {
 			case 'create':
 				return createStructure( commands[1], commands[2], options, commands );
 			case 'generate':
-				return createCode( commands[1], commands[2], options );
+				return createCode( commands[1], commands[2], options, commands );
 			default:
 				return global.printUsage();
 		}
