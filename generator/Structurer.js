@@ -118,7 +118,8 @@ module.exports = {
 		global.done( );
 	},
 	createEntity: function( name, options ){
-		var fPath = path.join( options.projectFolder || '.', name);
+		var fPath = options.projectFolder || process.cwd();
+		//var fPath = path.join( options.projectFolder || '.', name);
 		var fPathFn = path.join.bind( path, fPath );
 
 		var entityPath = tempPathFn('service', 'entity.js');
