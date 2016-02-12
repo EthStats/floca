@@ -75,7 +75,7 @@ module.exports = {
 		);
 	},
 	createProject: function( name, options ){
-		var fPath = path.join( options.projectFolder || '.', name);
+		var fPath = path.join( options.projectFolder || process.cwd(), name);
 		var fPathFn = path.join.bind( path, fPath );
 
 		if( fs.existsSync( fPath ) ){
@@ -105,6 +105,7 @@ module.exports = {
 				config.server.port = options.servicePort || 8080;
 				fs.writeFileSync( configPath, 'module.exports = ' + Sourcer( config, '\t' ) + ';\n', {encoding: 'utf8'} );
 			} catch(err){
+				console.log('>>>>', err, configPath);
 				global.forceExit('The config file seems not to be valid.');
 			}
 			modifyPackageJSON( tempPathFn('web', 'package.js'), fPathFn( 'package.json' ) );
