@@ -10,7 +10,8 @@ module.exports = {
 		entityName: 'EntityName'
 	},
 	server: {
-		active: true
+		active: true,
+		port: 8080
 	},
 	radiation: {
 		name: 'Radiation',

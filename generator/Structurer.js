@@ -8,7 +8,7 @@ var async = require('async');
 var beautify = require('js-beautify').js_beautify;
 var beautifyConfig = process.env.JS_BEAUTIFY_CONFIG ? require( process.env.JS_BEAUTIFY_CONFIG ) : { indent_size: 4, end_with_newline: true };
 
-var Sourcer = require('./Sourcer');
+//var Sourcer = require('./Sourcer');
 
 var tempPathFn = path.join.bind( path, __dirname, 'template' );
 var serviceDef = fs.readFileSync( tempPathFn('service', 'service.def'), {encoding: 'utf8'} );
@@ -100,14 +100,12 @@ module.exports = {
 			fse.copySync( tempPathFn('web', 'providers'), fPathFn( 'providers' ), { clobber: true } );
 			fse.copySync( tempPathFn('web', 'config.js'), fPathFn( 'config.js' ), { clobber: true } );
 			var configPath = fPathFn( 'config.js' );
-			try{
-				var config = require( configPath );
-				config.server.port = options.servicePort || 8080;
-				fs.writeFileSync( configPath, 'module.exports = ' + Sourcer( config, '\t' ) + ';\n', {encoding: 'utf8'} );
-			} catch(err){
-				console.log('>>>>', err, configPath);
-				global.forceExit('The config file seems not to be valid.');
-			}
+
+			fs.writeFileSync( configPath,
+				fs.readFileSync( configPath, {encoding: 'utf8'} ).replace( /port\:\s\d+'/, 'port: '+ (options.servicePort || 8080) ),
+				{encoding: 'utf8'}
+			);
+
 			modifyPackageJSON( tempPathFn('web', 'package.js'), fPathFn( 'package.json' ) );
 		}
 
@@ -133,13 +131,10 @@ module.exports = {
 		);
 		if( options.rest || options.websocket ){
 			var configPath = fPathFn( 'config.js' );
-			try{
-				var config = require( configPath );
-				config.server.active = true;
-				fs.writeFileSync( configPath, 'module.exports = ' + Sourcer( config, '\t' ) + ';\n', {encoding: 'utf8'} );
-			} catch(err){
-				global.forceExit('The config file seems not to be valid.');
-			}
+			fs.writeFileSync( configPath,
+				fs.readFileSync( configPath, {encoding: 'utf8'} ).replace( /active\:\s\w+'/, 'active: true' ),
+				{encoding: 'utf8'}
+			);
 		}
 		console.log('Done.');
 	},
