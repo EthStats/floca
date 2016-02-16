@@ -132,7 +132,7 @@ module.exports = {
 		if( options.rest || options.websocket ){
 			var configPath = fPathFn( 'config.js' );
 			fs.writeFileSync( configPath,
-				fs.readFileSync( configPath, {encoding: 'utf8'} ).replace( /active\:\s\w+'/, 'active: true' ),
+				fs.readFileSync( configPath, {encoding: 'utf8'} ).replace( /active:\s\w+'/, 'active: true' ),
 				{encoding: 'utf8'}
 			);
 		}
