@@ -90,10 +90,6 @@ module.exports = {
 			copyfiles( fPath, fPathFn, options );
 		}
 
-		if( options.alice ){
-			fse.copySync( tempPathFn('alice'), fPath, { clobber: true } );
-		}
-
 		if( options.web ){
 			fse.copySync( tempPathFn('web', 'src'), fPathFn( 'src' ), { clobber: true } );
 			fse.copySync( tempPathFn('web', 'bus'), fPathFn( 'bus' ), { clobber: true } );

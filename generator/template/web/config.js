@@ -11,9 +11,7 @@ module.exports = {
 	},
 	server: {
 		active: true,
-		port: 8080,
-		rest: false,
-		websocket: false
+		port: 8080
 	},
 	radiation: {
 		name: 'Radiation',

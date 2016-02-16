@@ -5,8 +5,6 @@ module.exports = {
 	},
 	server: {
 		active: false,
-		port: 8080,
-		rest: false,
-		websocket: false
+		port: 8080
 	}
 };
