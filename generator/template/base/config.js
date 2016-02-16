@@ -4,6 +4,9 @@ module.exports = {
 		entityName: 'EntityName'
 	},
 	server: {
-		active: false
+		active: false,
+		port: 8080,
+		rest: false,
+		websocket: false
 	}
 };
