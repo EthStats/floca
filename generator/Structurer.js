@@ -97,8 +97,11 @@ module.exports = {
 			fse.copySync( tempPathFn('web', 'config.js'), fPathFn( 'config.js' ), { clobber: true } );
 			var configPath = fPathFn( 'config.js' );
 
+			var config = fs.readFileSync( configPath, {encoding: 'utf8'} );
+			var hasPort = config.indexOf('port:') > 0;
+			var port = options.servicePort || 8080;
 			fs.writeFileSync( configPath,
-				fs.readFileSync( configPath, {encoding: 'utf8'} ).replace( /port\:\s\d+/, 'port: '+ (options.servicePort || 8080) ),
+				hasPort ? config.replace( /port:\s\d+/, 'port: '+ port ) : config.replace( /active:\s\w+/, 'active: true,\n\t\tport: '+ port ),
 				{encoding: 'utf8'}
 			);
 
@@ -127,7 +130,13 @@ module.exports = {
 		);
 		if( options.rest || options.websocket ){
 			var configPath = fPathFn( 'config.js' );
-			var configFile = fs.readFileSync( configPath, {encoding: 'utf8'} ).replace( /active:\s\w+/, 'active: true' ).replace( /port:\s\d+/, 'port: '+(options.servicePort || 8080) );
+
+			var configFile = fs.readFileSync( configPath, {encoding: 'utf8'} ).replace( /active:\s\w+/, 'active: true' );
+			var hasPort = configFile.indexOf('port:') > 0;
+			var port = options.servicePort || 8080;
+
+			configFile = hasPort ? configFile.replace( /port:\s\d+/, 'port: '+ port ) : configFile.replace( /active:\s\w+/, 'active: true,\n\t\tport: '+ port );
+
 			if( options.rest )
 				configFile = configFile.replace( /rest:\s\w+/, 'rest: true' );
 			if( options.websocket )
