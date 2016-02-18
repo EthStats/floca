@@ -127,7 +127,7 @@ module.exports = {
 		);
 		if( options.rest || options.websocket ){
 			var configPath = fPathFn( 'config.js' );
-			var configFile = fs.readFileSync( configPath, {encoding: 'utf8'} ).replace( /active:\s\w+'/, 'active: true' );
+			var configFile = fs.readFileSync( configPath, {encoding: 'utf8'} ).replace( /active:\s\w+'/, 'active: true' ).replace( /port:\s\d+'/, 'port: '+(options.servicePort || 8080) );
 			if( options.rest )
 				configFile = configFile.replace( /rest:\s\w+'/, 'rest: true' );
 			if( options.websocket )
