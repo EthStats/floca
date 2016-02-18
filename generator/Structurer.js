@@ -98,7 +98,7 @@ module.exports = {
 			var configPath = fPathFn( 'config.js' );
 
 			fs.writeFileSync( configPath,
-				fs.readFileSync( configPath, {encoding: 'utf8'} ).replace( /port\:\s\d+'/, 'port: '+ (options.servicePort || 8080) ),
+				fs.readFileSync( configPath, {encoding: 'utf8'} ).replace( /port\:\s\d+/, 'port: '+ (options.servicePort || 8080) ),
 				{encoding: 'utf8'}
 			);
 
@@ -127,11 +127,11 @@ module.exports = {
 		);
 		if( options.rest || options.websocket ){
 			var configPath = fPathFn( 'config.js' );
-			var configFile = fs.readFileSync( configPath, {encoding: 'utf8'} ).replace( /active:\s\w+'/, 'active: true' ).replace( /port:\s\d+'/, 'port: '+(options.servicePort || 8080) );
+			var configFile = fs.readFileSync( configPath, {encoding: 'utf8'} ).replace( /active:\s\w+/, 'active: true' ).replace( /port:\s\d+/, 'port: '+(options.servicePort || 8080) );
 			if( options.rest )
-				configFile = configFile.replace( /rest:\s\w+'/, 'rest: true' );
+				configFile = configFile.replace( /rest:\s\w+/, 'rest: true' );
 			if( options.websocket )
-				configFile = configFile.replace( /websocket:\s\w+'/, 'websocket: true' );
+				configFile = configFile.replace( /websocket:\s\w+/, 'websocket: true' );
 			fs.writeFileSync( configPath, configFile, {encoding: 'utf8'} );
 		}
 		console.log('Done.');
