@@ -6,4 +6,4 @@ module.exports = {
 		appName: 'DemoApp',
 		entityName: 'DemoMicroEntity'
 	}
-};
+}

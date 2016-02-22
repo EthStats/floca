@@ -1,8 +1,8 @@
 module.exports = {
 	dependencies: {
-		"async": "^1.5.2",
-		"floca": "^0.15.5",
-		"floca-nsq": "latest",
-		"lodash": "~3"
+		'async': '^1.5.2',
+		'floca': '^0.20.0',
+		'floca-nsq': '^0.2.0',
+		'lodash': '~3'
 	}
-};
+}

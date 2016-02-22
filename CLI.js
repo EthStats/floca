@@ -1,5 +1,5 @@
 #! /usr/bin/env node
 
-var Executer = require('./Executer');
+var Executer = require('./Executer')
 
-Executer.execute.apply( Executer, process.argv.slice( 2 ) );
+Executer.execute.apply( Executer, process.argv.slice( 2 ) )
