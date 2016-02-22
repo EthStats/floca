@@ -1,51 +1,51 @@
-'use strict';
+'use strict'
 
-var chai = require("chai");
-var should = chai.should();
-var expect = chai.expect;
+var chai = require('chai')
+var should = chai.should()
+var expect = chai.expect
 
-var Fuser = require('../Fuser');
+var Fuser = require('../Fuser')
 
-var config = require('../config');
+var config = require('../config')
 
-var Rest = require('connect-rest');
-var httphelper = Rest.httphelper();
+var Rest = require('connect-rest')
+var httphelper = Rest.httphelper()
 
-var io = require('socket.io');
-var ioclient = require('socket.io-client');
-var socketClient;
+var io = require('socket.io')
+var ioclient = require('socket.io-client')
+var socketClient
 
-var winston = require('winston');
-var logger = new (winston.Logger)({ transports: [ new (winston.transports.Console)({ colorize: 'true' }) ] });
+var winston = require('winston')
+var logger = new (winston.Logger)({ transports: [ new (winston.transports.Console)({ colorize: 'true' }) ] })
 
-describe("Test", function () {
-	var fuser;
+describe('Test', function () {
+	var fuser
 	before(function(done){
-		fuser = new Fuser( config );
+		fuser = new Fuser( config )
 
-		config = fuser.config;
+		config = fuser.config
 
 		fuser.start( function( err ){
-			if( err ) done( err );
+			if( err ) done( err )
 
-			socketClient = ioclient( 'http://localhost:' + config.server.port + '/' + config.floca.appName );
-			done( );
-		} );
-	});
+			socketClient = ioclient( 'http://localhost:' + config.server.port + '/' + config.floca.appName )
+			done( )
+		} )
+	})
 
-	describe("Test REST services", function () {
+	describe('Test REST services', function () {
 $$$REST$$$
-	});
+	})
 
-	describe("Test Websocket services", function () {
+	describe('Test Websocket services', function () {
 $$$WEBSOCKET$$$
-	});
+	})
 
-	after(function(done){
+	after(function (done) {
 		if( socketClient )
-			socketClient.disconnect();
+			socketClient.disconnect()
 		if( fuser )
-			fuser.stop( function( ){ } );
-		done( );
-	});
-} );
+			fuser.stop( function( ){ } )
+		done( )
+	})
+} )

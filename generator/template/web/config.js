@@ -1,8 +1,8 @@
 var serveStatic = require('serve-static'),
-	helmet = require('helmet');
+	helmet = require('helmet')
 
-var path = require('path');
-var Rester = require('./providers/Rester');
+var path = require('path')
+var Rester = require('./providers/Rester')
 
 module.exports = {
 	floca: {
@@ -24,7 +24,7 @@ module.exports = {
 			passthrough: true
 		}
 	},
-	connectMiddlewares: function( config ){
+	connectMiddlewares: function ( config ) {
 		var wares = [
 			// helmet.csp( contentSecurityPolicy ),
 			helmet.xframe('deny'),
@@ -33,10 +33,10 @@ module.exports = {
 			helmet.nosniff(),
 			helmet.ienoopen(),
 			serveStatic( path.join( process.cwd(), 'www' ) )
-		];
-		return wares;
+		]
+		return wares
 	},
-	extendREST: function( config, rester, pathToIgnore, harcon, tools ){
-		Rester.addJADERendering( config, rester, pathToIgnore, harcon );
+	extendREST: function ( config, rester, pathToIgnore, harcon, tools ) {
+		Rester.addJADERendering( config, rester, pathToIgnore, harcon )
 	}
-};
+}

@@ -6,4 +6,4 @@ module.exports = {
 	server: {
 		active: false
 	}
-};
+}
