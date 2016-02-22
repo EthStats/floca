@@ -33,11 +33,13 @@ FuserProto.start = function ( callbackFn ) {
 		if ( err )
 			self.stop( callbackFn, err, res )
 		else if ( callbackFn )
-			callbackFn(err, res)
+			callbackFn(null, res)
 	} )
 }
 
 FuserProto.stop = function ( callbackFn, err, res ) {
+	if ( err ) console.error( err )
+
 	if ( this.server )
 		this.server.close( callbackFn )
 	else if ( callbackFn )
