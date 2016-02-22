@@ -1,9 +1,11 @@
 var Fuser = require('floca')
 var FuserNSQ = require('floca-nsq')
-var _ = require('lodash')
+
+var Assigner = require('assign.js')
+var assigner = new Assigner()
 
 var fuserNSQ = new FuserNSQ()
-var fuser = new Fuser( _.assign( {
+var fuser = new Fuser( assigner.assign( {
 	channeller: fuserNSQ
 }, require('./config') ) )
 

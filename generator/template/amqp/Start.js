@@ -1,9 +1,11 @@
 var Fuser = require('floca')
 var FuserAMQP = require('floca-amqp')
-var _ = require('lodash')
+
+var Assigner = require('assign.js')
+var assigner = new Assigner()
 
 var fuserAMQP = new FuserAMQP()
-var fuser = new Fuser( _.assign( {
+var fuser = new Fuser( assigner.assign( {
 	channeller: fuserAMQP
 }, require('./config') ) )
 

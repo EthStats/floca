@@ -2,7 +2,7 @@ var Collector = require('./Collector')
 var path = require('path')
 var fs = require('fs')
 
-var _ = require('lodash')
+var _ = require('isa.js')
 
 var tempPathFn = path.join.bind( path, __dirname, 'template' )
 var actionDef = fs.readFileSync( tempPathFn('service', 'action.def'), {encoding: 'utf8'} )

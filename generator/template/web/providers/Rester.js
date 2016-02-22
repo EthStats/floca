@@ -1,6 +1,8 @@
 var path = require('path'),
-	fs = require('fs'),
-	_ = require('lodash')
+	fs = require('fs')
+
+var Assigner = require('assign.js')
+var assigner = new Assigner()
 
 var pageRoles = {
 	workspace: [ '*' ]
@@ -22,7 +24,7 @@ module.exports = {
 			pages.forEach( function ( dPage ) {
 				pathToIgnore.push( '/' + dPage + '*' )
 				rester.get( { path: '/' + dPage + '/?id', context: '', version: '1.0.0', unprotected: true }, function ( request, content, callback ) {
-					var globals = _.assign( { roles: pageRoles[dPage] || [], user: request.user || {} }, jadeGlobals )
+					var globals = assigner.assign( { roles: pageRoles[dPage] || [], user: request.user || {} }, jadeGlobals )
 					harcon.simpleIgnite( 'JadeRenderer.render', fpath, dPage, 'views', globals, function (err, result) {
 						callback( err, err || (result ? result[0] : '') )
 					} )

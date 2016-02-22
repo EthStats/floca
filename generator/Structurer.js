@@ -2,7 +2,9 @@ var fs = require('fs')
 var fse = require('fs-extra')
 var path = require('path')
 
-var _ = require('lodash')
+var _ = require('isa.js')
+var Assigner = require('assign.js')
+var assigner = (new Assigner()).recursive(true)
 
 var beautify = require('js-beautify').js_beautify
 var beautifyConfig = process.env.JS_BEAUTIFY_CONFIG ? require( process.env.JS_BEAUTIFY_CONFIG ) : { indent_size: 4, end_with_newline: true }
@@ -14,7 +16,7 @@ var serviceDef = fs.readFileSync( tempPathFn('service', 'service.def'), {encodin
 
 function modifyPackageJSON ( modifierJS, json ) {
 	fs.writeFileSync( json,
-		JSON.stringify( _.merge( JSON.parse( fs.readFileSync( json, {encoding: 'utf8'} ) ), require( modifierJS ) ), null, 4 ),
+		JSON.stringify( assigner.assign( JSON.parse( fs.readFileSync( json, {encoding: 'utf8'} ) ), require( modifierJS ) ), null, 4 ),
 		{encoding: 'utf8'}
 	)
 }

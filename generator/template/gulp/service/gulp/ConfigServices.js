@@ -1,20 +1,21 @@
-var _ = require('lodash')
+var Assigner = require('assign.js')
+var assigner = (new Assigner()).recursive(true)
 
 module.exports = {
 	conf: {},
 	env: function () {
-		_.merge( this.conf, process.env )
+		assigner.assign( this.conf, process.env )
 		return this
 	},
 	argv: function () {
-		_.merge( this.conf, require('minimist')(process.argv.slice(2)) )
+		assigner.assign( this.conf, require('minimist')(process.argv.slice(2)) )
 		return this
 	},
 	file: function (files) {
 		var self = this
 		var fileArray = files || []
 		fileArray.forEach( function ( file ) {
-			_.merge( self.conf, require( file ) )
+			assigner.assign( self.conf, require( file ) )
 		} )
 		return self
 	},

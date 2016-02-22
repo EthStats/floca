@@ -4,7 +4,9 @@ var fs = require('fs')
 global.gutil = require('gulp-util')
 global.webpack = require('webpack')
 
-var _ = require('lodash')
+var Assigner = require('assign.js')
+var assigner = (new Assigner()).recursive(true)
+
 var services = require('./services')
 
 var join = require('path').join
@@ -51,7 +53,7 @@ gulp.task( 'compress-images', ['copy-static'], function () {
 	{ name: 'landing', subpages: [ ], type: 'static' }
 ].forEach( function ( obj ) {
 	var page = obj.name
-	var tasks = services.createTasks( _.merge( {
+	var tasks = services.createTasks( assigner.assign( {
 		pageName: page,
 		sourceFolder: resolve( join( pagesFolder, page ) ),
 		tempFolder: resolve( tempFolder ),
