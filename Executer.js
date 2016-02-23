@@ -47,7 +47,7 @@ function createCode ( codeType, name, options, commands ) {
 	global.printUsage()
 }
 
-var optionsAccepted = [ 'alice', 'force', 'gulp', 'mocha', 'folder', 'amqp', 'nsq', 'rest', 'websocket', 'projectFolder', 'appName', 'servicePort', 'web' ]
+var optionsAccepted = [ 'force', 'gulp', 'mocha', 'folder', 'amqp', 'nsq', 'rest', 'websocket', 'projectFolder', 'appName', 'servicePort', 'web' ]
 function readCommand ( commands, command ) {
 	for ( var i = 0; i < commands.length; ++i ) {
 		if ( commands[i] === command )

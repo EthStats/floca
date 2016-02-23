@@ -1,6 +1,6 @@
 var Fuser = require('../Fuser')
 
-describe('harcon-radiation', function () {
+describe('floca-services', function () {
 
 	var fuser
 	before(function (done) {
