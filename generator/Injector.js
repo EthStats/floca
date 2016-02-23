@@ -8,10 +8,8 @@ var tempPathFn = path.join.bind( path, __dirname, 'template' )
 var actionDef = fs.readFileSync( tempPathFn('service', 'action.def'), {encoding: 'utf8'} )
 var interactionDef = fs.readFileSync( tempPathFn('service', 'interaction.def'), {encoding: 'utf8'} )
 
-
-var beautify = require('js-beautify').js_beautify
-var beautifyConfig = process.env.JS_BEAUTIFY_CONFIG ? require( process.env.JS_BEAUTIFY_CONFIG ) : { indent_size: 4, end_with_newline: true }
-
+var esformatter = require('esformatter')
+var format = require( './formatter.js' )
 
 function validateEntity (entity) {
 	return entity.name && entity.init && _.isFunction( entity.init )
@@ -40,9 +38,10 @@ function addInteractionsToEntity ( interaction, entityPath, options ) {
 	}
 
 	var hasAsync = entityDef.indexOf('var async') > -1
-	var code = beautify(
+
+	var code = esformatter.format(
 		(hasAsync ? '' : 'var async = require(\'async\')\n\n') + entityDef.substring( 0, entityDef.lastIndexOf('}') ) + interDef + entityDef.substring( entityDef.lastIndexOf('}') ),
-		beautifyConfig
+		format // { indent: { value: '\t' } }
 	)
 	fs.writeFileSync( entityPath, code, {encoding: 'utf8'} )
 }

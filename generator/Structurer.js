@@ -6,9 +6,8 @@ var _ = require('isa.js')
 var Assigner = require('assign.js')
 var assigner = (new Assigner()).recursive(true)
 
-var beautify = require('js-beautify').js_beautify
-var beautifyConfig = process.env.JS_BEAUTIFY_CONFIG ? require( process.env.JS_BEAUTIFY_CONFIG ) : { indent_size: 4, end_with_newline: true }
-
+var esformatter = require('esformatter')
+var format = require( './formatter.js' )
 // var Sourcer = require('./Sourcer')
 
 var tempPathFn = path.join.bind( path, __dirname, 'template' )
@@ -29,10 +28,12 @@ function addServiceToEntity ( service, entityPath, options ) {
 	var entityDef = fs.readFileSync( entityPath, {encoding: 'utf8'} )
 
 	var fnDef = serviceDef.replace('$$$name$$$', service)
-	var code = beautify(
+
+	var code = esformatter.format(
 		entityDef.substring( 0, entityDef.lastIndexOf('}') ) + fnDef + entityDef.substring( entityDef.lastIndexOf('}') ),
-		beautifyConfig
+		format // { indent: { value: '\t' } }
 	)
+
 	fs.writeFileSync( entityPath, code, {encoding: 'utf8'} )
 }
 
@@ -109,7 +110,7 @@ module.exports = {
 			modifyPackageJSON( tempPathFn('web', 'package.js'), fPathFn( 'package.json' ) )
 		}
 
-		this.addEntityName( fPathFn, name )
+		this.addEntityName( fPathFn, options.entityName || name )
 		if ( options.appName ) {
 			this.addAppName( fPathFn, options.appName )
 		}
