@@ -5,7 +5,7 @@ var logFile = 'forever.log'
 var errFile = 'forever.err'
 
 gulp.task('server-lint', function () {
-	return gulp.src( './bus/*.js' )
+	return gulp.src( './bus/**/*.js' )
 		.pipe( global.plugins.eslint() )
 		.pipe( global.plugins.eslint.format() )
 		.pipe( global.plugins.eslint.failOnError() )
