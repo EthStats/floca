@@ -150,9 +150,6 @@ describe('floca-services', function () {
 			console.log( (name + id) )
 
 			var flow = JSON.parse( fs.readFileSync( path.join( __dirname, 'interaction.flow.json' ), 'utf8') )
-
-			console.log( JSON.stringify( analyseFlows( 'Collector', [ flow ] ) ) )
-			console.log( ' ------------- ' )
 			var interaction = interactionPrinter( analyseFlows( 'Collector', [ flow ] ).interactions )
 
 			Executer.execute( 'create', 'project', name + id, '--appName=MochaProject', '--entityName=' + name, '--projectFolder=' + projectFolder )
