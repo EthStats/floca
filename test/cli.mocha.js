@@ -60,7 +60,7 @@ describe('floca-services', function () {
 	before(function (done) {
 		rimraf( projectFolder, done )
 	} )
-	/*
+
 	describe('Project tests', function () {
 		var name = 'Frame'
 		it('Basic project test', function ( done ) {
@@ -119,7 +119,7 @@ describe('floca-services', function () {
 			done()
 		})
 	})
-	*/
+
 	describe('Service tests', function () {
 		var name = 'Actor'
 		it('Basic service test', function ( done ) {
