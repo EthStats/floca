@@ -3,3 +3,4 @@
 *.zip
 node_modules/
 *.ideas
+_temp

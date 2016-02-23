@@ -43,10 +43,11 @@ function interactionPrinter ( interactions ) {
 		}
 
 		interaction.interacts.forEach( function ( interaction ) {
-			fnName = interaction.action.message + ':'
+			fnName = interaction.action.message
 			messages = interaction.subActions.map( function (subAction) {
 				return subAction.actorB.name + '.' + subAction.message
 			} )
+			console.log( fnName, messages )
 			interactionDef = interactionDef.concat( FlowComposer.createInteraction( fnName, messages ) )
 		} )
 	} )
@@ -122,6 +123,7 @@ describe('floca-services', function () {
 
 	describe('Service tests', function () {
 		var name = 'Actor'
+
 		it('Basic service test', function ( done ) {
 			var id = clerobee.generate()
 			console.log( (name + id) )
@@ -130,7 +132,7 @@ describe('floca-services', function () {
 			Executer.execute( 'create', 'service', name + 'Entity', 'doSomething', '--projectFolder=' + path.join( projectFolder, name + id ) )
 			done()
 		})
-		it('Interaction test', function ( done ) {
+		it('Interaction initiated test', function ( done ) {
 			var id = clerobee.generate()
 			console.log( (name + id) )
 
@@ -140,6 +142,22 @@ describe('floca-services', function () {
 			Executer.execute( 'create', 'project', name + id, '--appName=MochaProject', '--entityName=' + name, '--projectFolder=' + projectFolder )
 			Executer.execute( 'create', 'entity', 'Cachier', '--projectFolder=' + path.join( projectFolder, name + id ) )
 			Executer.execute( 'generate', 'interaction', 'Cachier', interaction, '--projectFolder=' + path.join( projectFolder, name + id ) )
+			done()
+		})
+
+		it('Interaction received test', function ( done ) {
+			var id = clerobee.generate()
+			console.log( (name + id) )
+
+			var flow = JSON.parse( fs.readFileSync( path.join( __dirname, 'interaction.flow.json' ), 'utf8') )
+
+			console.log( JSON.stringify( analyseFlows( 'Collector', [ flow ] ) ) )
+			console.log( ' ------------- ' )
+			var interaction = interactionPrinter( analyseFlows( 'Collector', [ flow ] ).interactions )
+
+			Executer.execute( 'create', 'project', name + id, '--appName=MochaProject', '--entityName=' + name, '--projectFolder=' + projectFolder )
+			Executer.execute( 'create', 'entity', 'Collector', '--projectFolder=' + path.join( projectFolder, name + id ) )
+			Executer.execute( 'generate', 'interaction', 'Collector', interaction, '--projectFolder=' + path.join( projectFolder, name + id ) )
 			done()
 		})
 	})

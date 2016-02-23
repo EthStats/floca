@@ -1,8 +1,8 @@
 var _ = require('isa.js')
 
 function collectSubActions ( flow, actor, index ) {
-	var actions = []
-	for (var i = index; i < flow.signals.length; ++i) {
+	var actions = [], i
+	for (i = index; i < flow.signals.length; ++i) {
 		var signal = flow.signals[i]
 		if ( signal.type !== 'Signal' ) continue
 
@@ -11,7 +11,7 @@ function collectSubActions ( flow, actor, index ) {
 		if ( signal.actorA.index === actor.index )
 			actions.push( flow.signals[i] )
 	}
-	return actions
+	return { actions: actions, index: i }
 }
 function getNextInteraction (flow, name, index) {
 	index = index || 0
@@ -63,11 +63,11 @@ flowParser.interactionsOf = function ( name ) {
 	var interIndex = 0
 	while ( (interIndex = getNextInteraction( self.flow, actor.name, interIndex )) > -1 ) {
 		var action = self.flow.signals[interIndex]
-		var actions = collectSubActions( self.flow, actor, interIndex + 1 )
+		var subActions = collectSubActions( self.flow, actor, interIndex + 1 )
 
-		interacts.push( {action: action, subActions: actions } )
+		interacts.push( {action: action, subActions: subActions.actions } )
 
-		interIndex += 1
+		interIndex = subActions.index
 	}
 
 	interIndex = 0
