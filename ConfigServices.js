@@ -1,17 +1,18 @@
-var _ = require('lodash')
+var Assigner = require('assign.js')
+var assigner = (new Assigner()).recursive(true)
 
 module.exports = {
 	conf: {},
 	env: function () {
-		_.merge( this.conf, process.env )
+		assigner.merge( this.conf, process.env )
 		return this
 	},
 	add: function ( options ) {
-		_.merge( this.conf, options )
+		assigner.merge( this.conf, options )
 		return this
 	},
 	argv: function ( index ) {
-		_.merge( this.conf, require('minimist')(process.argv.slice(index || 2)) )
+		assigner.merge( this.conf, require('minimist')(process.argv.slice(index || 2)) )
 		return this
 	},
 	file: function (files) {
@@ -19,7 +20,7 @@ module.exports = {
 		if ( !Array.isArray(files) ) files = [ files ]
 		var filesArray = files || []
 		filesArray.forEach( function ( file ) {
-			self.conf = _.merge( self.conf, require( file ) )
+			self.conf = assigner.merge( self.conf, require( file ) )
 		} )
 		return this
 	},
