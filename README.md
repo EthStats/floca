@@ -43,25 +43,10 @@ Your code is clean, pure and surprisingly simple.
 
 # Installation
 
-	$ npm install -g floca
+	$ npm install floca
 
 
 # Quick setup
-
-#### Using the CLI tool:
-
-	$ floca create demoApp
-	$ cd demoApp
-	$ npm install
-	$ npm start
-
-The CLI tool will create a new folder 'demoApp', and will create all required subfolders and files in it.
-By executing those npm commands, your microservice is ready-to-serve!
-The initial project will contain:
-- a microservice
-- a Starter code
-- a preliminary package.json
-- a sample config for the microservices
 
 #### Creating own project:
 
@@ -400,96 +385,6 @@ In a highly fragmented system, the configuration management should be centralise
 The attribute _'configurator'_ will activate the configuration management in [floca](https://github.com/UpwardsMotion/floca) and the microservice loader will call the function 'config' of it passing the name of the app and the service to require the configuration sent to the entity to initialise.
 
 
-## CLI
-
-[floca](https://github.com/UpwardsMotion/floca) is delivered with an embedded CLI tool to aid project creation and management.
-
-Install floca with _-g_ switch:
-
-	$ npm install -g floca
-
-This will give you the _floca_ command line statement
-
-
-#### Create Project
-
-To create a new project execute the following:
-
-	$ floca create project <projectName> [--amqp] [--nsq] [--web] [--gulp] [--force]
-
-This will create a folder _projectName_ inside the execution folder and creates a minimal viable [floca](https://github.com/UpwardsMotion/floca) project using the transport provider you might pass.
-The project can be used right away:
-
-	$ npm install
-	$ npm start
-
-You can tell _floca_ to generate code for a web server if your project aims to serve pages.
-Gulp is also an project creational option if you need Gulp build scripts for your project.
-
-Extend the bus folder with entities and have a happy coding!
-
-
-#### Create Entity
-
-From the your floca working folder, you can create an Entity by CLI:
-
-	$ floca create entity <entityName> [--rest] [--websocket]
-
-This will create a business entity JS file inside your _'bus'_ folder optionally with REST and/or Websocket ports opened.
-
-
-#### Create Service
-
-You can add service functions to your entities as shown below:
-
-	$ floca create service <entityName> <serviceName>
-
-The JS file identified by the _"serviceName"_ will be opened and a JS flocal function will be added to with the name _"serviceName"_.
-
-You can address other entities from there in respect your business flow.
-
-
-#### Generate Test Mocha code
-
-If your project possesses the service entities you might want to use, the CLI tool can generate [Mocha](https://mochajs.org) tests for them:
-
-	$ floca generate test --mocha
-
-This will execute a [floca](https://github.com/UpwardsMotion/floca) instance and all entities providing REST or Websocket interface will be associated with a test case.
-
-All code will be put to the file: _test/mochaTest_
-
-Execute this statement to call mocha on tests:
-
-	$ mocha test/mochaTest
-
-Tests are generated with _always accept_ behavior waiting for being unfold.
-
-
-## License
-
-(The MIT License)
-
-Copyright (c) 2016 Upwards Motion Ltd (1st Floor, 2 Woodberry Grove, Finchley, London N12 0DR; Company Registration No: 09074890)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
 ## Bugs
 
 See <https://github.com/UpwardsMotion/floca/issues>.
@@ -497,6 +392,7 @@ See <https://github.com/UpwardsMotion/floca/issues>.
 
 ## Changelog
 
+- 0.20.0: Big steps toward 1.0
 - 0.9.0: Tons of fixes and improvements
 - 0.5.0: JWT integration added.
 - 0.3.0: CLI tool added.

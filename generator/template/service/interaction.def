@@ -1,8 +1,0 @@
-
-	,$$$name$$$: function( message, terms, ignite, callback ) {
-		var fns = []
-$$$inters$$$
-		async.series( fns, function (err, res) {
-			callback( err, res )
-		} )
-	}

@@ -1,4 +1,0 @@
-
-	, $$$name$$$: function ( message, terms, ignite, callback ) {
-		callback( null, this.name + ': ' + message )
-	}

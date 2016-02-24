@@ -1,8 +1,0 @@
-		it( '$$$SERVICE$$$', function(done){
-			httphelper.generalCall( 'http://localhost:' + config.server.port + '/$$$DIVISION$$$' + '/$$$COMP_NAME$$$/$$$SERVICE_NAME$$$', 'POST', {'x-api-key': config.rest.apiKeys[0] }, null, { params: [ ] }, 'application/json', logger,
-				function (err, result, status) {
-					console.log( err, result, status )
-					done( )
-				}
-			)
-		})
