@@ -5,5 +5,8 @@ module.exports = {
 	floca: {
 		appName: 'DemoApp',
 		entityName: 'DemoMicroEntity'
+	},
+	server: {
+		active: true
 	}
 }
