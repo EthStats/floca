@@ -1,6 +1,6 @@
 {
   "name": "floca",
-  "version": "0.30.0",
+  "version": "0.31.0",
   "description": "Enterprise-grade microservice solution for NodeJS",
   "keywords": [
     "microservice",
@@ -25,14 +25,14 @@
   "license": "MIT",
   "main": "./Fuser.js",
   "dependencies": {
-    "assign.js": "^1.6.8",
+    "assign.js": "^1.7.0",
     "async": "^1.5.2",
     "body-parser": "^1.15.0",
     "compression": "^1.6.1",
     "connect": "^3.4.1",
-    "connect-rest": "^2.5.2",
-    "harcon": "^3.8.0",
-    "harcon-radiation": "^3.8.0",
+    "connect-rest": "^2.5.5",
+    "harcon": "^3.9.0",
+    "harcon-radiation": "^3.9.0",
     "isa.js": "^1.6.1",
     "jsonwebtoken": "^5.7.0",
     "minimist": "^1.2.0",
@@ -46,7 +46,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "clerobee": "^0.5.1",
-    "connect-rest": "^2.5.2",
+    "connect-rest": "^2.5.5",
     "gulp": "^3.9.1",
     "gulp-docco": "0.0.4",
     "gulp-eslint": "^2.0.0",
