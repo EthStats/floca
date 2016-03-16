@@ -22,7 +22,7 @@ Your codebase will we required to define __only pure CommonJS modules__ and all 
 - Advanced routing & listening: system fragmentation, qualified names, regular expressions, wildcards, etc.
 - Channel-agnostic you can use any underlaying technology your application requires: AMQP, XMPP, etc...
 - JSON Web Tokens integrated
-- Built-in logging service supporting Loggly as well
+- Built-in logging service supporting Loggly and Papertrail as well
 - Short learning curve: no need to learn hundred of pages, communication has to be simple after all. CommonJS is all you need to understand. :)
 
 
@@ -198,6 +198,7 @@ If the following environment variables are set,  [floca](https://github.com/Upwa
 [floca](https://github.com/UpwardsMotion/floca) supports mutliple logging solution:
 - own logging service
 - [loggly](http://loggly.com)
+- [Papertrail](http://papertrailapp.com)
 - file-based logging using [winston]()
 
 Please see the options in priority order:
@@ -233,6 +234,26 @@ If 'loggly' attribute is present with filled values, [floca](https://github.com/
 If the following environment variables are set,  [floca](https://github.com/UpwardsMotion/floca) will respect them as configuration:
 
 	LOGGLY_TOKEN, LOGGLY_SUBDOMAIN
+
+#### Papertrail
+
+```javascript
+	{
+		log: {
+			papertrail: {
+				host: 'logX.papertrailapp.com',
+				port: '12345'
+			}
+		}
+		...
+	}
+```
+
+If the configuration file possesses a 'papertrail' attribute as shown above, [floca](https://github.com/UpwardsMotion/floca) will send the logging info to your papertrail account.
+
+The following environment variables are respected:
+
+	PAPERTRAIL_HOST, PAPERTRAIL_PORT
 
 
 #### Log to files
