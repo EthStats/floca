@@ -1,6 +1,6 @@
 {
   "name": "floca",
-  "version": "1.2.3",
+  "version": "1.2.5",
   "description": "Enterprise-grade microservice solution for NodeJS",
   "keywords": [
     "microservice",
@@ -25,16 +25,16 @@
   "license": "MIT",
   "main": "./Fuser.js",
   "dependencies": {
-    "assign.js": "^2.0.0",
+    "assign.js": "^2.1.7",
     "async": "^2.0.1",
     "body-parser": "^1.15.2",
     "compression": "^1.6.2",
     "connect": "^3.4.1",
-    "connect-rest": "^2.7.0",
-    "harcon": "^4.3.1",
-    "harcon-radiation": "^4.3.2",
-    "isa.js": "^1.6.1",
-    "jsonwebtoken": "^7.1.6",
+    "connect-rest": "^2.7.5",
+    "harcon": "^4.3.5",
+    "harcon-radiation": "^4.3.5",
+    "isa.js": "^1.7.5",
+    "jsonwebtoken": "^7.1.7",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
     "morgan": "^1.7.0",
@@ -46,13 +46,13 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "clerobee": "^0.5.1",
-    "connect-rest": "^2.7.0",
+    "clerobee": "^0.6.5",
+    "connect-rest": "^2.7.5",
     "gulp": "^3.9.1",
     "gulp-docco": "0.0.4",
     "gulp-eslint": "^3.0.1",
     "gulp-load-plugins": "^1.2.4",
-    "gulp-mocha": "^2.2.0"
+    "gulp-mocha": "^3.0.0"
   },
   "engines": {
     "node": ">= 6.0.0"
