@@ -1,6 +1,6 @@
 {
   "name": "floca",
-  "version": "1.4.0",
+  "version": "1.4.5",
   "description": "Enterprise-grade microservice solution for NodeJS",
   "keywords": [
     "microservice",
@@ -31,8 +31,8 @@
     "compression": "^1.6.2",
     "connect": "^3.4.1",
     "connect-rest": "^2.7.5",
-    "harcon": "^4.6.0",
-    "harcon-radiation": "^4.6.0",
+    "harcon": "^4.6.5",
+    "harcon-radiation": "^4.6.5",
     "isa.js": "^1.7.5",
     "jsonwebtoken": "^7.1.9",
     "minimist": "^1.2.0",
