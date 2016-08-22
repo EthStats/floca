@@ -32,7 +32,7 @@
     "connect": "^3.4.1",
     "connect-rest": "^2.7.5",
     "harcon": "^4.6.5",
-    "harcon-radiation": "^4.6.5",
+    "harcon-radiation": "^4.6.6",
     "isa.js": "^1.7.5",
     "jsonwebtoken": "^7.1.9",
     "minimist": "^1.2.0",
